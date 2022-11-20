@@ -1,8 +1,5 @@
 
-	/**
- * Ribbons Class File.
- * Creates low-poly ribbons background effect inside a target container.
- */
+
 ;(function(name, factory) {
   if (typeof window === 'object') {
     window[name] = factory()
