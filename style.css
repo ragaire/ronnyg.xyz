@@ -1,0 +1,122 @@
+   @import url("https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Oswald&family=Outfit&display=swap");
+   @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+/*I dont even know how many things this was used for*/
+
+html{
+	scroll-behavior: smooth;
+}
+
+.features {
+	text-align: center;
+	border-style: solid;
+	border-radius: 10px;
+	padding: 20px;
+}
+
+.main {
+	font-family:Arial;
+	max-width:1000px;
+	margin: 0 auto;
+	padding:50px;
+	color: #fff;
+}
+
+
+.main a {
+	text-decoration: none;
+	color: #04f7e7;
+}
+
+.main a:hover{
+	color: #0365af
+}
+
+.oops {
+	padding-left: 10px;
+	border-style: solid;
+	border-left-color: #fff;
+	border-right-width: 0;
+	border-top-width: 0;
+	border-bottom-width: 0;
+}
+
+body{
+	background-color: #403060;
+    background-image: radial-gradient( circle, rgba(  0, 0, 0, 0 ) 0%, rgba( 0, 0, 0, 0.8 ) 100% );
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+
+li{
+	margin-bottom:3px;
+}
+
+hr {
+	margin-top: 50px;
+	background-color: #fff;
+	height: 1px
+}
+
+ul{
+	margin-top:20px;
+	margin-bottom:20px;
+}
+
+img{
+	max-width:97%;
+	margin:0 auto;
+	margin-bottom: 20px;
+	margin-top: 20px;
+}
+
+h1,h2,h3,h4{
+	padding-top:20px;
+}
+
+mark {
+	padding: 5px
+}
+
+pre{
+	padding: 5px;
+	color: #000;
+	font-family: consolas,monospace;
+	background-color: rgba(255,255,255, .8);
+	white-space: pre-wrap;
+}
+
+span{
+	font-family: consolas,monospace;
+	background-color:#F0F0F0;
+}
+
+.logo {
+	font-family: "Black Ops One", sans-serif;
+	font-size: 50px
+}
+
+.logo a {
+	text-decoration: none;
+	color: #fff;
+	user-select: none;
+}
+
+.logo a:hover{
+	color: inherit;
+}
+
+
+
+.branding {
+	background-image: url("https://www.sa-mp.com/images/header_kc1.jpg");
+	background-repeat: no-repeat;
+	text-align:center;
+}
+
+#footer {
+	padding-top: 50px;
+}
