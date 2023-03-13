@@ -7,6 +7,21 @@ html{
 	scroll-behavior: smooth;
 }
 
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  opacity: .9;
+}
+
+.column {
+  flex: 50%;
+  text-align: center;
+}
+
+.round {
+	border-radius: 360px;
+}
+
 .features {
 	text-align: center;
 	border-style: solid;
@@ -95,7 +110,9 @@ span{
 
 .logo {
 	font-family: "Black Ops One", sans-serif;
-	font-size: 50px
+	font-size: 50px;
+	text-align:center;
+	margin-bottom: 50px;
 }
 
 .logo a {
@@ -118,6 +135,7 @@ span{
 
 #footer {
 	padding-top: 50px;
+	text-align: center;
 }
 
 
