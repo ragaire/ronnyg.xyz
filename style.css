@@ -14,7 +14,7 @@ html{
 }
 
 .column {
-  flex: 50%;
+  flex: 33%;
   text-align: center;
 }
 
