@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <title>Media Player - Request</title>
+
+    <meta name="description" content="Garry's Mod Media Player request page.">
+    <meta name="keywords" content="garrysmod,media,player,request,search,youtube,vimeo,twitch,livestream,blip,reddit">
+    <meta name="author" content="pixelTail Games">
+
+    <!-- build:css(.tmp) styles/request.css -->
+    <link rel="stylesheet" href="styles/request.css">
+
+    <!-- endbuild -->
+</head>
+<body>
+<div class = "main" >
+
+            <!-- <img src="log.png"> -->
+            <h3>Request a supported URL below</h3>
+            <p style="opacity:.2;">Only full youtube video url's are supported. All other sites can load but will not be synced for other users</p>
+            <div class="center">
+                <input id="urlinput" type="text" class="url-input" placeholder="mp3, wav, ogg, jpg, png, webm" autofocus="true" onkeydown="onUrlKeyDown(event);">
+                <a href="javascript:requestUrl();" class="requestbutton">Load URL</a>
+
+
+            <div class="footer">
+                <p> powered by <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=546392647">mediaplayer</a></p>
+                <a href="index.html">Return to Index</a>
+            </div>
+
+
+
+            </div>
+
+</div>
+
+
+
+    <script src="scripts/request.js"></script>
+    <script src="scripts/bg.js"></script>
+
+
+</body>
+</html>
