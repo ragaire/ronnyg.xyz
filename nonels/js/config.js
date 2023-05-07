@@ -5,7 +5,7 @@ var Config = {};
  * What should the text in the center of the screen be?
  * if empty it will fill in your Server Name
  */
-Config.title = "a gmod server to watch mediaplayer and do nothing else";
+Config.title = "";
 
 /**
  * Enable map text in the top left corner of the screen?
