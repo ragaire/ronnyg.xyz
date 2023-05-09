@@ -17,7 +17,8 @@ body {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
-   	color: rgba(66, 50, 130, .5);
+    opacity: .5;
+   	color: white;
 }
 
 .archive {
@@ -26,6 +27,7 @@ body {
 
 .aa {
 	text-decoration: none;
+	color: red;
 }
 
 .aa:hover{text-decoration: underline; opacity: .5}
@@ -33,7 +35,6 @@ body {
 .row {
   display: flex;
   flex-wrap: wrap;
-  opacity: .9;
 }
 
 .column {
