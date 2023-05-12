@@ -27,7 +27,8 @@ Config.enableAnnouncements = true;
  * only works if enableAnnouncements = true
  */
 Config.announceMessages = [
-  "The flag is Irish, Not italian. But its OK! lots of italians have joined anyway.",
+  "I cannot believe i have to clarify this: the flag is IRISH not ITALIAN. Thankyou",
+  "This is a DEV server. UI, Gameplay, Addons, Economy will be altered and changed before release."
 ];
 
 /**
