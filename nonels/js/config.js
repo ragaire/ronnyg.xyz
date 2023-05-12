@@ -20,14 +20,14 @@ Config.enableSteamID = true;
 /**
  * Enable announcements?
  */
-Config.enableAnnouncements = false;
+Config.enableAnnouncements = true;
 
 /**
  * What messages do you want to show up?
  * only works if enableAnnouncements = true
  */
 Config.announceMessages = [
-  "",
+  "The flag is Irish, Not italian. But its OK! lots of italians have joined anyway.",
 ];
 
 /**
