@@ -5,7 +5,7 @@
 // How many backgrounds are you cycling through?
 // This should be a whole integer.
 // You should have image files numbered 1-# relative to your amount of images.
-const BackgroundCount = 17.0;
+const BackgroundCount = 18.0;
 
 // The relative path to your images.
 const BackgroundPath = "img/";
