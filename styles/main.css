@@ -29,9 +29,9 @@ html {
 
 body {
 	font-family: 'Lato', sans-serif;
-    background: radial-gradient(ellipse at bottom, rgb(33, 25, 65) 3%, rgb(4, 12, 24) 93%);
-    background-repeat: no-repeat;
-    overflow: hidden;
+/*    background: radial-gradient(ellipse at bottom, rgb(33, 25, 65) 3%, rgb(4, 12, 24) 93%);
+    background-repeat: no-repeat; 
+    overflow: hidden; */
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
