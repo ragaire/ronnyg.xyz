@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@900&display=swap');
 
+
 html {
 	height: 100%;
 }
@@ -30,8 +31,9 @@ html {
 body {
 	font-family: 'Lato', sans-serif;
 /*    background: radial-gradient(ellipse at bottom, rgb(33, 25, 65) 3%, rgb(4, 12, 24) 93%);
-    background-repeat: no-repeat; 
+    background-repeat: no-repeat;
     overflow: hidden; */
+    background-color: rgb(10,10,10);
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
