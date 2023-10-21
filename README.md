@@ -1,4 +1,3 @@
 # 0089fsafsau
-ahghhhhh ahghhhhh 
-
-feel free to use this site for your own purpose. idk why you would though lmao, maybe you are just incompetant ?
+Its simple html js site for various things used in Garry's mod server 
+dsc.gg/benjisrp
