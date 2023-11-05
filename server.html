@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf8">
+	<meta name="viewport" content="width=devicewidth, initialscale=1">
+	<title>Server Rules</title>
+	<link rel="stylesheet" type="text/css" href="styles/rules.css"> 
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+	<script src="https://unpkg.com/feather-icons"></script>
+
+</head>
+<body>
+
+<h1 style="text-align: center">UBUNTU ARM STEAMCMD SERVER</h1>
+<h3 style="text-align: center;">
+	By default, most game servers do not support ARM CPU's, which is the only available config for Oracles Free tier with decent specs.
+
+	To install steam CMD, we need Box-86 64. 
+
+	Your server will give you errors, but ignore them, as it works regardless. This guide does not cover port fowarding or getting the oracle cloud instance in the first place.
+</h3>
+
+
+<pre>
+
+
+<h4>Getting Started</h4>
+
+<code> sudo apt update </code>
+<code>sudo apt full-upgrade</code>
+
+
+<h4>Installing Box-86</h4>
+
+<code>sudo apt install git build-essential cmake</code>
+<code>git clone https://github.com/ptitSeb/box86</code>
+<code>sudo dpkg --add-architecture armhf</code>
+<code>sudo apt update</code>
+<code>sudo apt install gcc-arm-linux-gnueabihf</code>
+<code>sudo apt install libc6:armhf</code>
+<code>sudo apt install libncurses5:armhf</code>
+<code>sudo apt install libstdc++6:armhf</code>
+<code>cd box86</code>
+<code>mkdir build</code>
+<code>cd build</code>
+<code>cmake .. -DRPI4ARM64=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo</code>
+<code>make -j$(nproc)</code>
+<code>sudo make install</code>
+<code>sudo systemctl restart systemd-binfmt</code>
+
+<h4>Installing Box-64</h4>
+
+
+<code>cd ../..</code>
+<code>git clone https://github.com/ptitSeb/box64.git</code>
+<code>cd box64</code>
+<code>mkdir build</code>
+<code>cd build</code>
+<code>cmake .. -DRPI4ARM64=1 -DCMAKE_BUILD_TYPE=RelWithDebInfo</code>
+<code>make -j$(nproc)</code>
+<code>sudo make install</code>
+<code>sudo systemctl restart systemd-binfmt</code>
+
+
+<h4>Installing Steam CMD</h4>
+
+
+<code>cd ../..</code>
+<code>mkdir steamcmd</code>
+<code>cd steamcmd</code>
+<code>curl -sqL "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz" | tar zxvf -</code>
+
+
+
+<h4>Running Steam CMD</h4>
+
+<code>./steamcmd.sh</code>
+<blockquote> if it runs, wait until it installs then type quit. </blockquote>
+
+
+
+<h4> Downloading your Garry's Mod server </h4>
+
+<code>./steamcmd.sh +@sSteamCmdForcePlatformType linux +force_install_dir /home/ubuntu/kinfogaming +login anonymous +app_update 4020 validate +quit</code>
+
+
+
+<h4> Starting your Garry's Mod server </h4>
+
+<code>cd kinfogaming/
+screen -A -m -d -S gmod ./srcds_run -console -game garrysmod +maxplayers 16 +map rp_downtown_v4g_v2 +gamemode darkrp +host_workshop_collection WORKSHOPID +sv_setsteamaccount STEAMACCOUNTKEY </code>
+
+
+
+
+<!-- FAQ -->
+<div class="large-space">
+
+<div class = "end">
+	<i data-feather="alert-circle"></i>
+	<p>For safety & security, you should make a new user for steamcmd & your server, although not nessesary</p>
+</div>
+
+
+<div class="footer">
+	<!-- <p>Contact me at tbx3.5761 on discord</p> -->
+
+	<!-- <code>&#169; 2019 - 2022</code> -->
+</div>
+
+<script>
+
+    feather.replace()
+
+</script>
+
+</body>
+</html>
