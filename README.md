@@ -1,3 +1,4 @@
-# 0089fsafsau
-Its simple html js site for various things used in Garry's mod server 
-dsc.gg/benjisrp
+icons by feathericons,
+/req for mediaplayer 
+/nonels by speeds_ (https://github.com/speedsunderscore/loadingscreen/tree/main)
+water.css for some pages
