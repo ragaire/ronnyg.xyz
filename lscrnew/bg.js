@@ -1,5 +1,5 @@
 
-const BackgroundCount = 22;
+const BackgroundCount = 23;
 const BackgroundPath = "img/";
 const BackgroundExtension = ".webp";
 const BackgroundHoldLength = 6.0;
