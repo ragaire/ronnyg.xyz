@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Background Video</title>
+	<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap');
+
+		body, html {
+  			font-family: 'Montserrat', sans-serif;
+			margin: 0;
+			padding: 0;
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			color: white;
+			text-align: center;
+			background: black; 
+		}
+		#background {
+			position: fixed;
+			background-color: black;
+			opacity: .5;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			z-index: 2;
+		}
+		#content {
+			position: relative;
+			z-index: 2;
+		}
+		h1 {
+			font-size: 3em;
+			margin: 0.5em 0;
+		}
+		h2 {
+			font-size: 1.5em;
+			margin: 0.5em 0;
+		}
+	</style>
+</head>
+<body>
+
+    <div class="background">
+      <video id="background" autoplay muted loop>
+        <source src="https://cdn.glitch.global/fa225044-c65b-46d3-a5d1-cb2546f9412c/The%20Alan%20Parsons%20Project%20-%20Don't%20Answer%20Me%20(Official%20HD%20Video).mp4?v=1717335482613" type="video/mp4">
+      </video>
+
+      <audio id="audio" autoplay loop>
+        <source src="https://cdn.glitch.global/fa225044-c65b-46d3-a5d1-cb2546f9412c/The%20Alan%20Parsons%20Project%20-%20Don't%20Answer%20Me%20(Official%20HD%20Video).mp4?v=1717335482613" type="audio/mp4">
+      </audio>
+    </div>
+
+	<div id="content">
+        <h1>BENJI'S DOWNTOWN • DSC.GG/BENJISRP</h1>
+        <h4>Please wait for all files to download</h4>
+        <!-- <hr style="width: 20px; color: white;"> -->
+        <code> <i> Benji's Downtown (2019-2024) </i></code>
+    </div>
+
+
+    <script>
+        const audio = document.getElementById('audio');
+        audio.volume = .2;  // Set volume to desired level (0 to 1)
+
+        const video = document.getElementById('background');
+        video.volume = 0;  // Mute video since audio is handled separately
+    </script>
+    
+</body>
+</html>
