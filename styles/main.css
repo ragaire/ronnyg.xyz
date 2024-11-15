@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@900&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 html {
 	height: 100%;
@@ -57,7 +57,10 @@ html {
 }
 
 body {
-	font-family: 'Lato', sans-serif;
+/*	font-family: 'Lato', sans-serif;*/
+  font-family: "Kanit", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 /*    background: radial-gradient(ellipse at bottom, rgb(33, 25, 65) 3%, rgb(4, 12, 24) 93%);
     background-repeat: no-repeat;
     overflow: hidden; */
