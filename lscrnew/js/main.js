@@ -2,7 +2,7 @@
 
 var isGmod = false;
 var isTest = false;
-var totalFiles = 50;
+var totalFiles = 62;
 var totalCalled = false;
 var downloadingFileCalled = false;
 var percentage = 0;
