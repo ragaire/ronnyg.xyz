@@ -64,28 +64,31 @@
 </head>
 
 <body>
-<a href="index.html"><img src="img/benjis.png"></img></a>
+
+<a href="index.html"><img src="img/benjis.png"></a>
+
 <h1>Benjis RP UI Framework</h1>
 
 <p>
-A lightweight (hopefully), Performance based (hopefully again) , consistent UI Framework for Benji's Downtown & Dev servers.
+A lightweight (hopefully), performance-based (hopefully again), consistent UI
+framework for Benji's Downtown & Dev servers.
 </p>
 
 <hr>
 
-<h2>Overview</h2>
+<h2>Quick Start Example</h2>
 
-<p>Benjis.UI provides reusable UI components built on top of GMod VGUI:</p>
+<pre><code>local frame = Benjis.UI:CreateFrame("Example Menu", 900, 600, "center")
 
-<ul>
-    <li>Themed windows (sidebar & center)</li>
-    <li>Panels and layout containers</li>
-    <li>Animated buttons</li>
-    <li>Scroll panels and lists</li>
-    <li>Model panels</li>
-    <li>Responsive font system with presets</li>
-    <li>Centralized theme configuration</li>
-</ul>
+local panel = Benjis.UI:CreatePanel(frame.Content, "panel")
+panel:Dock(FILL)
+panel:DockMargin(Benjis.UI.Padding, Benjis.UI.Padding, Benjis.UI.Padding, Benjis.UI.Padding)
+
+local btn = Benjis.UI:CreateButton(panel, "Click Me")
+btn:Dock(TOP)
+btn.DoClick = function()
+    print("Button clicked")
+end</code></pre>
 
 <hr>
 
@@ -104,138 +107,122 @@ A lightweight (hopefully), Performance based (hopefully again) , consistent UI F
 Benjis.UI.AnimTime = 0.25
 Benjis.UI.Padding  = 12</code></pre>
 
+<p>
+All visual styling should come from this table. Avoid hardcoding colors.
+</p>
+
 <hr>
 
 <h2>Windows & Frames (cl_window.lua)</h2>
 
 <h3>Create Frame</h3>
 
-<pre><code>local frame = Benjis.UI:CreateFrame(title, width, height, style)</code></pre>
+<pre><code>local frame = Benjis.UI:CreateFrame("F4 Menu", 1000, 700, "sidebar")</code></pre>
 
-<table>
-<tr><th>Parameter</th><th>Description</th></tr>
-<tr><td>title</td><td>Window title text</td></tr>
-<tr><td>width</td><td>Frame width</td></tr>
-<tr><td>height</td><td>Frame height</td></tr>
-<tr><td>style</td><td>"sidebar" or "center"</td></tr>
-</table>
+<h3>Adding Content</h3>
 
-<h3>Styles</h3>
+<pre><code>local content = frame.Content
 
-<p><b>Sidebar</b> — slides in from the left and slides out when closed.</p>
-<p><b>Center</b> — fades and slides vertically from the center.</p>
-
-<h3>Content Panel</h3>
-
-<pre><code>frame.Content</code></pre>
-
-<p>
-Use this as the parent container for all UI elements inside the frame.
-</p>
+local card = Benjis.UI:CreatePanel(content, "card")
+card:Dock(TOP)
+card:SetTall(120)
+card:DockMargin(12, 12, 12, 0)</code></pre>
 
 <hr>
 
 <h2>Panels (cl_panel.lua)</h2>
 
-<pre><code>local pnl = Benjis.UI:CreatePanel(parent, style)</code></pre>
+<h3>Panel Styles Example</h3>
 
-<table>
-<tr><th>Style</th><th>Description</th></tr>
-<tr><td>panel</td><td>Default solid panel</td></tr>
-<tr><td>bg</td><td>Background panel</td></tr>
-<tr><td>transparent</td><td>Layout-only container</td></tr>
-<tr><td>card</td><td>Rounded card with outline</td></tr>
-</table>
+<pre><code>Benjis.UI:CreatePanel(parent, "panel")
+Benjis.UI:CreatePanel(parent, "bg")
+Benjis.UI:CreatePanel(parent, "transparent")
+Benjis.UI:CreatePanel(parent, "card")</code></pre>
 
 <hr>
 
 <h2>Buttons (cl_button.lua)</h2>
 
-<h3>Color Lerp Helper</h3>
+<h3>Basic Button</h3>
 
-<pre><code>function Benjis.UI:LerpColor(t, from, to)
-    return Color(
-        Lerp(t, from.r, to.r),
-        Lerp(t, from.g, to.g),
-        Lerp(t, from.b, to.b),
-        Lerp(t, (from.a or 255), (to.a or 255))
-    )
+<pre><code>local btn = Benjis.UI:CreateButton(parent, "Save Settings")
+btn:Dock(TOP)
+
+btn.DoClick = function()
+    RunConsoleCommand("say", "Saved!")
 end</code></pre>
 
-<h3>Create Button</h3>
+<h3>Button List Example</h3>
 
-<pre><code>local btn = Benjis.UI:CreateButton(parent, text, height)</code></pre>
-
-<ul>
-    <li>Smooth hover animation</li>
-    <li>Theme-aware coloring</li>
-    <li>Font preset usage</li>
-    <li>Fully custom painted</li>
-</ul>
+<pre><code>for i = 1, 5 do
+    local btn = Benjis.UI:CreateButton(parent, "Option " .. i)
+    btn:Dock(TOP)
+end</code></pre>
 
 <hr>
 
 <h2>Fonts (cl_fonts.lua)</h2>
 
-<h3>Low-level Font Getter</h3>
+<h3>Using a Font Preset</h3>
 
-<pre><code>Benjis.UI:GetFont(name, size, options)</code></pre>
+<pre><code>draw.SimpleText(
+    "Hello World",
+    Benjis.UI:GetFontPreset("Header"),
+    20, 20,
+    Benjis.UI.Theme.Text
+)</code></pre>
 
-<p>
-Fonts automatically scale based on screen resolution and are cached for
-performance.
-</p>
+<h3>Registering a Custom Preset</h3>
 
-<h3>Font Presets</h3>
-
-<pre><code>Benjis.UI:RegisterFontPreset("Button", {
+<pre><code>Benjis.UI:RegisterFontPreset("Huge", {
     font = "Tahoma",
-    size = 16,
-    options = { weight = 600 }
+    size = 28,
+    options = { weight = 900 }
 })</code></pre>
-
-<p>Available presets:</p>
-
-<ul>
-    <li>Title</li>
-    <li>Header</li>
-    <li>Text</li>
-    <li>Small</li>
-    <li>Button</li>
-    <li>Mono</li>
-</ul>
 
 <hr>
 
 <h2>Scroll Panels (cl_scroll.lua)</h2>
 
-<pre><code>local scroll = Benjis.UI:CreateScroll(parent)</code></pre>
+<h3>Scrollable List Example</h3>
 
-<p>
-Creates a themed DScrollPanel with a slim accent-colored scrollbar.
-</p>
+<pre><code>local scroll = Benjis.UI:CreateScroll(parent)
+scroll:Dock(FILL)
+
+for i = 1, 20 do
+    local btn = Benjis.UI:CreateButton(scroll, "Item " .. i)
+    btn:Dock(TOP)
+end</code></pre>
 
 <hr>
 
 <h2>Lists (cl_list.lua)</h2>
 
+<h3>Player List Example</h3>
+
 <pre><code>local list = Benjis.UI:CreateList(parent)
-local row = Benjis.UI:AddListRow(list, text, stripColor)</code></pre>
+
+for _, ply in ipairs(player.GetAll()) do
+    Benjis.UI:AddListRow(
+        list,
+        ply:Nick(),
+        team.GetColor(ply:Team())
+    )
+end</code></pre>
 
 <p>
-List rows are clickable buttons and may optionally display a color strip
-(e.g. team color).
+The <code>stripColor</code> argument is optional and can be any Color.
 </p>
 
 <hr>
 
 <h2>Model Panels (cl_model.lua)</h2>
 
-<pre><code>local mdl = Benjis.UI:CreateModelPanel(parent, modelPath)</code></pre>
+<h3>Model Preview Example</h3>
 
-<p>
-Creates a static DModelPanel with preset camera and lighting values.
-</p>
+<pre><code>local mdl = Benjis.UI:CreateModelPanel(parent, "models/player/kleiner.mdl")
+mdl:SetSize(200, 300)
+mdl:Dock(LEFT)</code></pre>
 
 <hr>
 
@@ -244,8 +231,9 @@ Creates a static DModelPanel with preset camera and lighting values.
 <ul>
     <li>Do not paint raw VGUI elements outside the framework</li>
     <li>Use font presets instead of hardcoded fonts</li>
-    <li>Let the theme control visual appearance</li>
-    <li>Keep addon logic separate from UI styling</li>
+    <li>Use Dock and DockMargin consistently</li>
+    <li>Let the theme control all colors</li>
+    <li>Keep logic separate from UI layout</li>
 </ul>
 
 </body>
