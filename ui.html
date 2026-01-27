@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Benjis.UI Framework Docs</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #121212;
+        color: #eaeaea;
+        margin: 0;
+        padding: 40px;
+    }
+
+    h1, h2, h3 {
+        color: #ff5a5a;
+    }
+
+    h1 {
+        border-bottom: 2px solid #ff5a5a;
+        padding-bottom: 10px;
+    }
+
+    section {
+        margin-bottom: 50px;
+    }
+
+    code, pre {
+        background: #1e1e1e;
+        padding: 12px;
+        display: block;
+        border-left: 4px solid #ff5a5a;
+        overflow-x: auto;
+        color: #fff;
+    }
+
+    .signature {
+        color: #9cdcfe;
+    }
+
+    .param {
+        color: #4ec9b0;
+    }
+
+    .note {
+        background: #1a1a1a;
+        border-left: 4px solid #ffaa00;
+        padding: 12px;
+        margin-top: 10px;
+        color: #ffd580;
+    }
+</style>
+</head>
+<body>
+
+<h1>Benjis.UI Framework</h1>
+<p>A lightweight, theme-driven UI framework for Garry’s Mod.</p>
+
+---
+
+<section>
+<h2>Theme</h2>
+
+<h3>Benjis.UI.Theme</h3>
+<pre><code>
+Benjis.UI.Theme = {
+    BG      = Color(18,18,18,235),
+    Panel   = Color(25,25,25,220),
+    Hover   = Color(35,35,35,220),
+    Accent  = Color(200,60,60),
+    Divider = Color(0,0,0,180),
+    Text    = color_white,
+    Muted   = Color(160,160,160)
+}
+</code></pre>
+
+<p>Defines global colors used by all framework components.</p>
+</section>
+
+---
+
+<section>
+<h2>Windows</h2>
+
+<h3>CreateFrame</h3>
+<p class="signature">Benjis.UI:CreateFrame(title, width, height, style)</p>
+
+<pre><code>
+local frame = Benjis.UI:CreateFrame(
+    "My Window",
+    600,
+    400,
+    "center"
+)
+</code></pre>
+
+<p><strong>Parameters:</strong></p>
+<ul>
+    <li><span class="param">title</span> (string) – Window title</li>
+    <li><span class="param">width</span> (number) – Frame width</li>
+    <li><span class="param">height</span> (number) – Frame height</li>
+    <li><span class="param">style</span> (string) – <code>"sidebar"</code> or <code>"center"</code></li>
+</ul>
+
+<div class="note">
+Sidebar windows slide in from the left.<br>
+Center windows fade + slide vertically.
+</div>
+</section>
+
+---
+
+<section>
+<h2>Panels</h2>
+
+<h3>CreatePanel</h3>
+<p class="signature">Benjis.UI:CreatePanel(parent, style)</p>
+
+<pre><code>
+local pnl = Benjis.UI:CreatePanel(frame.Content, "panel")
+pnl:Dock(FILL)
+</code></pre>
+
+<p><strong>Styles:</strong></p>
+<ul>
+    <li><code>panel</code> – Default content panel</li>
+    <li><code>bg</code> – Background panel</li>
+    <li><code>transparent</code> – Layout only</li>
+    <li><code>card</code> – Rounded card style</li>
+</ul>
+</section>
+
+---
+
+<section>
+<h2>Buttons</h2>
+
+<h3>CreateButton</h3>
+<p class="signature">Benjis.UI:CreateButton(parent, text, height)</p>
+
+<pre><code>
+local btn = Benjis.UI:CreateButton(panel, "Click Me", 42)
+btn:Dock(TOP)
+
+btn.DoClick = function()
+    print("Clicked")
+end
+</code></pre>
+
+<p>Buttons automatically handle hover animation and theming.</p>
+</section>
+
+---
+
+<section>
+<h2>Scroll Panels</h2>
+
+<h3>CreateScroll</h3>
+<p class="signature">Benjis.UI:CreateScroll(parent)</p>
+
+<pre><code>
+local scroll = Benjis.UI:CreateScroll(panel)
+scroll:Dock(FILL)
+</code></pre>
+
+<p>Creates a themed scroll panel with a minimal accent scrollbar.</p>
+</section>
+
+---
+
+<section>
+<h2>Lists</h2>
+
+<h3>CreateList</h3>
+<p class="signature">Benjis.UI:CreateList(parent)</p>
+
+<pre><code>
+local list = Benjis.UI:CreateList(panel)
+</code></pre>
+
+<h3>AddListRow</h3>
+<p class="signature">Benjis.UI:AddListRow(list, text, stripColor)</p>
+
+<pre><code>
+Benjis.UI:AddListRow(list, "Player Name", team.GetColor(ply:Team()))
+</code></pre>
+
+<p>Rows are clickable buttons with optional color strip.</p>
+</section>
+
+---
+
+<section>
+<h2>Animation & Settings</h2>
+
+<pre><code>
+Benjis.UI.AnimTime = 0.25
+Benjis.UI.Padding  = 12
+</code></pre>
+
+<p>Global animation timing and layout spacing.</p>
+</section>
+
+---
+
+<section>
+<h2>Best Practices</h2>
+
+<ul>
+    <li>Do not paint raw DPanels outside the framework</li>
+    <li>Use semantic components (Panel, Button, List)</li>
+    <li>Let the theme control visuals</li>
+    <li>Keep addon files focused on layout & logic</li>
+</ul>
+
+<div class="note">
+This framework is designed to scale across F4 menus,
+scoreboards, admin panels, and modal windows.
+</div>
+</section>
+
+</body>
+</html>
