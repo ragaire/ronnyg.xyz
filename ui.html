@@ -2,239 +2,1168 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Benjis.UI Framework</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Benjis.UI Framework Wiki</title>
 <style>
+    :root {
+        --bg: #0b0d10;
+        --bg-elev: #12161b;
+        --bg-soft: #171c22;
+        --border: #262d36;
+        --text: #edf2f7;
+        --muted: #a9b4c2;
+        --accent: #d14d4d;
+        --accent-soft: rgba(209, 77, 77, 0.12);
+        --code: #0f1318;
+        --good: #7bd88f;
+        --warn: #ffd166;
+        --shadow: 0 18px 50px rgba(0,0,0,0.35);
+        --radius: 14px;
+        --radius-sm: 10px;
+        --content: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
     body {
-        background: #0f0f0f;
-        color: #eaeaea;
-        font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
         margin: 0;
-        padding: 32px;
-        line-height: 1.6;
+        background:
+            radial-gradient(circle at top right, rgba(209,77,77,0.08), transparent 28%),
+            linear-gradient(180deg, #0a0c0f 0%, #0d1014 100%);
+        color: var(--text);
+        font: 16px/1.7 Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
 
-    h1, h2, h3 {
-        font-weight: 600;
-        color: #ffffff;
+    a { color: #ff8d8d; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .shell {
+        display: grid;
+        grid-template-columns: 290px minmax(0, 1fr);
+        gap: 32px;
+        max-width: 1600px;
+        margin: 0 auto;
+        padding: 28px;
     }
 
-    h1 { font-size: 32px; }
-    h2 { font-size: 24px; margin-top: 40px; }
-    h3 { font-size: 18px; margin-top: 24px; }
+    .sidebar {
+        position: sticky;
+        top: 20px;
+        align-self: start;
+        background: rgba(18,22,27,0.82);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 18px;
+        backdrop-filter: blur(12px);
+        box-shadow: var(--shadow);
+        max-height: calc(100vh - 40px);
+        overflow: auto;
+    }
 
-    p { max-width: 900px; }
+    .brand {
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: var(--muted);
+        margin-bottom: 6px;
+    }
+
+    .sidebar h2 {
+        font-size: 20px;
+        margin: 0 0 14px;
+    }
+
+    .sidebar nav a {
+        display: block;
+        padding: 8px 10px;
+        margin: 2px 0;
+        border-radius: 8px;
+        color: #dbe4ef;
+    }
+
+    .sidebar nav a:hover {
+        background: var(--accent-soft);
+        text-decoration: none;
+    }
+
+    .main {
+        min-width: 0;
+    }
+
+    .hero,
+    .card,
+    .callout,
+    pre,
+    table {
+        box-shadow: var(--shadow);
+    }
+
+    .hero {
+        background: linear-gradient(180deg, rgba(23,28,34,0.98), rgba(18,22,27,0.98));
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        padding: 36px;
+        margin-bottom: 28px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .hero::after {
+        content: "";
+        position: absolute;
+        inset: auto -80px -80px auto;
+        width: 240px;
+        height: 240px;
+        background: radial-gradient(circle, rgba(209,77,77,0.18), transparent 70%);
+        pointer-events: none;
+    }
+
+    .eyebrow {
+        display: inline-block;
+        background: var(--accent-soft);
+        color: #ffb1b1;
+        border: 1px solid rgba(209,77,77,0.25);
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        padding: 6px 10px;
+        border-radius: 999px;
+        margin-bottom: 16px;
+    }
+
+    h1, h2, h3, h4 {
+        line-height: 1.2;
+        margin: 0 0 14px;
+        color: #fff;
+    }
+
+    h1 { font-size: 42px; }
+    h2 { font-size: 28px; margin-top: 42px; }
+    h3 { font-size: 21px; margin-top: 30px; }
+    h4 { font-size: 17px; margin-top: 24px; }
+
+    p, li { color: #dbe4ef; }
+    .muted { color: var(--muted); }
+
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+        margin: 22px 0;
+    }
+
+    .card {
+        background: linear-gradient(180deg, rgba(22,27,33,0.98), rgba(16,20,25,0.98));
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 20px;
+    }
+
+    .card h3,
+    .card h4 {
+        margin-top: 0;
+    }
+
+    .callout {
+        background: rgba(209,77,77,0.08);
+        border: 1px solid rgba(209,77,77,0.22);
+        border-left: 4px solid var(--accent);
+        border-radius: 12px;
+        padding: 16px 18px;
+        margin: 18px 0;
+    }
+
+    .callout.warn {
+        background: rgba(255,209,102,0.08);
+        border-color: rgba(255,209,102,0.22);
+        border-left-color: var(--warn);
+    }
+
+    .callout.good {
+        background: rgba(123,216,143,0.08);
+        border-color: rgba(123,216,143,0.22);
+        border-left-color: var(--good);
+    }
 
     code {
-        background: #1b1b1b;
-        padding: 4px 6px;
-        border-radius: 4px;
-        font-family: Consolas, monospace;
-        font-size: 14px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        background: rgba(255,255,255,0.05);
+        padding: 2px 6px;
+        border-radius: 6px;
+        font-size: 0.95em;
     }
 
     pre {
-        background: #1b1b1b;
-        padding: 16px;
-        border-radius: 6px;
-        overflow-x: auto;
-        max-width: 1000px;
+        background: var(--code);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 18px;
+        overflow: auto;
+        margin: 16px 0 22px;
+    }
+
+    pre code {
+        background: transparent;
+        padding: 0;
+        border-radius: 0;
+        font-size: 14px;
+        color: #f7fbff;
+        display: block;
+        white-space: pre;
     }
 
     table {
+        width: 100%;
         border-collapse: collapse;
-        margin-top: 12px;
+        background: rgba(18,22,27,0.98);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        overflow: hidden;
+        margin: 18px 0 26px;
     }
 
     th, td {
-        border: 1px solid #2a2a2a;
-        padding: 8px 12px;
+        border-bottom: 1px solid var(--border);
+        padding: 12px 14px;
+        vertical-align: top;
+        text-align: left;
     }
 
     th {
-        background: #222;
+        background: rgba(255,255,255,0.03);
+        color: #fff;
     }
 
-    hr {
-        border: none;
-        border-top: 1px solid #2a2a2a;
-        margin: 40px 0;
+    tr:last-child td { border-bottom: 0; }
+
+    ul, ol { padding-left: 22px; }
+
+    .section {
+        max-width: var(--content);
+    }
+
+    .footer {
+        margin: 50px 0 20px;
+        color: var(--muted);
+        font-size: 14px;
+    }
+
+    @media (max-width: 1100px) {
+        .shell {
+            grid-template-columns: 1fr;
+        }
+        .sidebar {
+            position: static;
+            max-height: none;
+        }
+        .grid {
+            grid-template-columns: 1fr;
+        }
+        h1 { font-size: 34px; }
     }
 </style>
 </head>
-
 <body>
+<div class="shell">
+    <aside class="sidebar">
+        <div class="brand">Documentation</div>
+        <h2>Benjis.UI</h2>
+        <nav>
+            <a href="#overview">Overview</a>
+            <a href="#include-order">Suggested File Load Order</a>
+            <a href="#quick-start">Quick Start</a>
+            <a href="#theme">Theme System</a>
+            <a href="#fonts">Fonts and Labels</a>
+            <a href="#frames">Frames and Windows</a>
+            <a href="#panels">Panels</a>
+            <a href="#buttons">Buttons and Confirm Dialogs</a>
+            <a href="#scroll">Scroll Panels</a>
+            <a href="#lists">Lists and Item Tiles</a>
+            <a href="#models">Model Panels</a>
+            <a href="#tabs">Tabs</a>
+            <a href="#textentry">Text Entries and Search Boxes</a>
+            <a href="#patterns">Recommended Usage Patterns</a>
+            <a href="#pitfalls">Important Caveats</a>
+            <a href="#examples">Extended Examples</a>
+        </nav>
+    </aside>
 
-<a href="index.html"><img src="img/benjis.png"></a>
+    <main class="main">
+        <section class="hero section" id="overview">
+            <div class="eyebrow">Framework Wiki</div>
+            <h1>Benjis.UI Framework</h1>
+            <p>This wiki documents the current Benjis.UI clientside framework, including the theme system, windowing, panels, buttons, fonts, labels, tabs, model panels, scroll panels, list helpers, and text entry controls. It is written against the new framework files, not the older version of the wiki.</p>
+            <div class="grid">
+                <div class="card">
+                    <h3>What this framework provides</h3>
+                    <p>A small themed VGUI layer built around factory functions such as <code>CreateFrame</code>, <code>CreatePanel</code>, <code>CreateButton</code>, <code>CreateScroll</code>, <code>CreateTabs</code>, <code>CreateTextEntry</code>, <code>CreateModelPanel</code>, and list/tile helpers. The framework centralises colours, font presets, animation timing, and common panel styles.</p>
+                </div>
+                <div class="card">
+                    <h3>Design goals visible in the code</h3>
+                    <p>The new version heavily reduces repeated per-frame work by caching fonts, using local theme aliases, precomputing paint handlers, and avoiding avoidable allocations inside <code>Paint</code> and <code>Think</code> callbacks. That matters when you open lots of panels at once, such as F4 pages, inventories, admin tools, or shop interfaces.</p>
+                </div>
+            </div>
+            <div class="callout warn">
+                <strong>Important:</strong> this is a clientside UI framework. It improves presentation and interaction, but it does not replace server-side validation. Any DarkRP purchase, command, weapon spawn, shipment action, rank action, or administrative action triggered from these controls must still be validated on the server.
+            </div>
+        </section>
 
-<h1>Benjis RP UI Framework</h1>
+        <section class="section" id="include-order">
+            <h2>Suggested File Load Order</h2>
+            <p>Several modules depend on shared state created by earlier files, especially the theme and font systems. A safe include order for a typical clientside loader is shown below.</p>
+<pre><code>-- lua/autorun/client/cl_benjis_ui_loader.lua
 
-<p>
-A lightweight (hopefully), performance-based (hopefully again), consistent UI
-framework for Benji's Downtown & Dev servers.
-</p>
+Benjis = Benjis or {}
+Benjis.UI = Benjis.UI or {}
 
-<hr>
+include("benjis_ui/cl_theme.lua")
+include("benjis_ui/cl_fonts.lua")
+include("benjis_ui/cl_panel.lua")
+include("benjis_ui/cl_window.lua")
+include("benjis_ui/cl_button.lua")
+include("benjis_ui/cl_scroll.lua")
+include("benjis_ui/cl_list.lua")
+include("benjis_ui/cl_model.lua")
+include("benjis_ui/cl_tabs.lua")
+include("benjis_ui/cl_textentry.lua")</code></pre>
+            <div class="callout">
+                <strong>Why this order?</strong> <code>cl_theme.lua</code> defines the palette and layout constants. <code>cl_fonts.lua</code> sets up font APIs and label creation. <code>cl_panel.lua</code> depends on the theme existing. <code>cl_window.lua</code>, <code>cl_button.lua</code>, <code>cl_list.lua</code>, and the other modules all build on those shared APIs.</div>
+        </section>
 
-<h2>Quick Start Example</h2>
+        <section class="section" id="quick-start">
+            <h2>Quick Start</h2>
+            <p>The example below creates a centered window with a card container, a header label, a search field, tabs, and a button row. It demonstrates how the framework is intended to be composed.</p>
+<pre><code>local frame = Benjis.UI:CreateFrame("Example Menu", 960, 640, "center")
 
-<pre><code>local frame = Benjis.UI:CreateFrame("Example Menu", 900, 600, "center")
+local root = Benjis.UI:CreatePanel(frame.Content, "bg")
+root:Dock(FILL)
+root:DockMargin(Benjis.UI.Padding, Benjis.UI.Padding, Benjis.UI.Padding, Benjis.UI.Padding)
 
-local panel = Benjis.UI:CreatePanel(frame.Content, "panel")
-panel:Dock(FILL)
-panel:DockMargin(Benjis.UI.Padding, Benjis.UI.Padding, Benjis.UI.Padding, Benjis.UI.Padding)
+local headerCard = Benjis.UI:CreatePanel(root, "card")
+headerCard:Dock(TOP)
+headerCard:SetTall(88)
+headerCard:DockMargin(0, 0, 0, 12)
 
-local btn = Benjis.UI:CreateButton(panel, "Click Me")
-btn:Dock(TOP)
-btn.DoClick = function()
-    print("Button clicked")
-end</code></pre>
+local title = Benjis.UI:CreateLabel(headerCard, "Framework Demo", "Header")
+title:Dock(TOP)
+title:DockMargin(12, 12, 12, 4)
 
-<hr>
+local subtitle = Benjis.UI:CreateLabel(
+    headerCard,
+    "This page shows how multiple Benjis.UI controls fit together.",
+    "Text"
+)
+subtitle:Dock(TOP)
+subtitle:DockMargin(12, 0, 12, 12)
 
-<h2>Theme System (cl_theme.lua)</h2>
+local search = Benjis.UI:CreateSearchEntry(root, {
+    placeholder = "Search items, players, or categories...",
+    tall = 38
+})
+search:Dock(TOP)
+search:DockMargin(0, 0, 0, 12)
 
+local tabs = Benjis.UI:CreateTabs(root, {
+    tabHeight = 36,
+    tabSpacing = 8,
+    contentStyle = "transparent"
+})
+tabs:Dock(FILL)
+
+tabs:AddTab("dashboard", "Dashboard", function(page)
+    local panel = Benjis.UI:CreatePanel(page, "card")
+    panel:Dock(FILL)
+
+    local label = Benjis.UI:CreateLabel(page, "Dashboard content goes here.", "Text")
+    label:Dock(TOP)
+    label:DockMargin(12, 12, 12, 0)
+end)
+
+tabs:AddTab("settings", "Settings", function(page)
+    local save = Benjis.UI:CreateButton(page, "Save Settings")
+    save:Dock(TOP)
+    save:DockMargin(0, 12, 0, 0)
+    save.DoClick = function()
+        chat.AddText(Color(0, 200, 0), "Saved settings")
+    end
+end)</code></pre>
+        </section>
+
+        <section class="section" id="theme">
+            <h2>Theme System</h2>
+            <p>The theme file defines the shared palette and the two main global layout constants used throughout the framework: <code>Benjis.UI.AnimTime</code> and <code>Benjis.UI.Padding</code>.</p>
 <pre><code>Benjis.UI.Theme = {
-    BG        = Color(18,18,18,235),
-    Panel     = Color(25,25,25,220),
-    Hover     = Color(35,35,35,220),
-    Accent    = Color(200,60,60),
-    Divider   = Color(0,0,0,180),
-    Text      = color_white,
-    Muted     = Color(160,160,160)
+    BG      = Color(18, 18, 18, 235),
+    Panel   = Color(25, 25, 25, 150),
+    Hover   = Color(35, 35, 35, 220),
+    Accent  = Color(200, 60, 60),
+    Divider = Color(0, 0, 0, 180),
+    Text    = color_white,
+    Muted   = Color(160, 160, 160),
+    _CardOutline = Color(0, 0, 0, 120),
 }
 
 Benjis.UI.AnimTime = 0.25
 Benjis.UI.Padding  = 12</code></pre>
+            <h3>Theme fields</h3>
+            <table>
+                <thead>
+                    <tr><th>Key</th><th>Purpose</th><th>Used by</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>BG</code></td><td>Main background colour for windows and some text entries.</td><td>Frames, panel style <code>bg</code>, text entries.</td></tr>
+                    <tr><td><code>Panel</code></td><td>Default panel/body surface.</td><td>Buttons, content panels, rows, tabs, item tiles.</td></tr>
+                    <tr><td><code>Hover</code></td><td>Hover/active surface colour.</td><td>Buttons, tabs, text entry states, tile hovers.</td></tr>
+                    <tr><td><code>Accent</code></td><td>Highlight colour.</td><td>Scroll grip, tab underline, cursor/highlight states.</td></tr>
+                    <tr><td><code>Divider</code></td><td>Outline or separator colour.</td><td>Text entry border.</td></tr>
+                    <tr><td><code>Text</code></td><td>Primary foreground text colour.</td><td>Labels, buttons, tabs, rows, tiles.</td></tr>
+                    <tr><td><code>Muted</code></td><td>Secondary foreground text colour.</td><td>Close button, placeholder text, tile amount text.</td></tr>
+                    <tr><td><code>_CardOutline</code></td><td>Internal helper colour for the card outline.</td><td><code>CreatePanel(..., "card")</code>.</td></tr>
+                </tbody>
+            </table>
+            <h3>Best practice for theme overrides</h3>
+            <p>Do not mutate the existing colour tables in place if you want to override the theme. Replace entries with new <code>Color(...)</code> values instead. This matches the framework’s own guidance and prevents hard-to-track issues caused by shared colour references.</p>
+<pre><code>-- Good
+Benjis.UI.Theme.Accent = Color(52, 152, 219)
+Benjis.UI.Theme.Panel  = Color(22, 22, 26, 190)
 
-<p>
-All visual styling should come from this table. Avoid hardcoding colors.
-</p>
+-- Avoid in-place mutation patterns like this
+-- Benjis.UI.Theme.Accent.r = 52</code></pre>
+            <h3>Theme override example for a police terminal</h3>
+<pre><code>local oldAccent = Benjis.UI.Theme.Accent
+local oldHover  = Benjis.UI.Theme.Hover
 
-<hr>
+Benjis.UI.Theme.Accent = Color(40, 120, 255)
+Benjis.UI.Theme.Hover  = Color(32, 42, 72, 220)
 
-<h2>Windows & Frames (cl_window.lua)</h2>
+local frame = Benjis.UI:CreateFrame("Police MDT", 1100, 700, "sidebar_right")
 
-<h3>Create Frame</h3>
+-- restore later if you only want temporary styling
+Benjis.UI.Theme.Accent = oldAccent
+Benjis.UI.Theme.Hover  = oldHover</code></pre>
+        </section>
 
-<pre><code>local frame = Benjis.UI:CreateFrame("F4 Menu", 1000, 700, "sidebar")</code></pre>
+        <section class="section" id="fonts">
+            <h2>Fonts and Labels</h2>
+            <p>The font module handles font creation, caching, preset registration, preset lookup, and the <code>CreateLabel</code> helper. Fonts are resolution-scaled using a cached factor derived from <code>ScrH()</code>, clamped between <code>0.85</code> and <code>1.25</code>. When the screen size changes, the cache is reset and rebuilt on demand.</p>
+            <h3>Available APIs</h3>
+            <table>
+                <thead>
+                    <tr><th>Function</th><th>Purpose</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>Benjis.UI:GetFont(name, size, opts)</code></td><td>Creates or returns a cached surface font ID.</td></tr>
+                    <tr><td><code>Benjis.UI:RegisterFontPreset(id, data)</code></td><td>Registers a preset name for reuse.</td></tr>
+                    <tr><td><code>Benjis.UI:GetFontPreset(id)</code></td><td>Returns the font ID for a preset, with fallback behaviour if the preset is missing.</td></tr>
+                    <tr><td><code>Benjis.UI:CreateLabel(parent, text, preset)</code></td><td>Creates a wrapped <code>DLabel</code> using a preset and the theme text colour.</td></tr>
+                </tbody>
+            </table>
+            <h3>Built-in font presets</h3>
+<pre><code>Title  = { font = "Roboto",      size = 20, options = { weight = 800 } }
+Header = { font = "Roboto",      size = 18, options = { weight = 700 } }
+Text   = { font = "Roboto",      size = 16, options = { weight = 500 } }
+Small  = { font = "Roboto",      size = 13, options = { weight = 500 } }
+Button = { font = "Roboto",      size = 16, options = { weight = 600 } }
+Mono   = { font = "Courier New", size = 14, options = { weight = 500 } }</code></pre>
+            <h3>Manual font creation</h3>
+<pre><code>local fontID = Benjis.UI:GetFont("Tahoma", 18, {
+    weight = 700,
+    outline = false,
+    antialias = true
+})
 
-<h3>Adding Content</h3>
+hook.Add("HUDPaint", "ExampleFontUsage", function()
+    draw.SimpleText("Benjis.UI custom font", fontID, 40, 40, color_white)
+end)</code></pre>
+            <h3>Registering a new preset</h3>
+<pre><code>Benjis.UI:RegisterFontPreset("JobCardTitle", {
+    font = "Roboto",
+    size = 22,
+    options = {
+        weight = 900,
+        antialias = true
+    }
+})
 
-<pre><code>local content = frame.Content
+local lbl = Benjis.UI:CreateLabel(parent, "Civil Protection", "JobCardTitle")</code></pre>
+            <h3>Using labels correctly</h3>
+            <p><code>CreateLabel</code> creates a wrapped label, enables vertical auto-stretch, sets its alignment to left/vertical-center, and disables mouse input. It is suited for descriptions, body text, and titles where you want standardised typography with minimal setup.</p>
+<pre><code>local desc = Benjis.UI:CreateLabel(panel,
+    "This shipment can only be bought by Gun Dealers and requires a valid license.",
+    "Text"
+)
+desc:Dock(TOP)
+desc:DockMargin(12, 0, 12, 12)</code></pre>
+            <div class="callout">
+                <strong>Missing preset behaviour:</strong> <code>GetFontPreset</code> does not hard-crash when a preset does not exist. It logs through <code>ErrorNoHalt</code> and falls back to the <code>Text</code> preset if available, or <code>Default</code> as a final fallback.</div>
+        </section>
+
+        <section class="section" id="frames">
+            <h2>Frames and Windows</h2>
+            <p><code>CreateFrame(title, w, h, style)</code> creates an animated <code>DFrame</code> with a custom header, close button, blur-backed paint, and a themed <code>frame.Content</code> panel for your body layout.</p>
+            <h3>Supported styles</h3>
+            <table>
+                <thead>
+                    <tr><th>Style</th><th>Open animation</th><th>Close animation</th><th>Typical use</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>sidebar</code></td><td>Slides in from the left edge.</td><td>Slides back out to the left.</td><td>F4 menus, side inventories, admin drawers.</td></tr>
+                    <tr><td><code>sidebar_right</code></td><td>Slides in from the right edge.</td><td>Slides back out to the right.</td><td>Context panels, secondary inspectors, side tools.</td></tr>
+                    <tr><td><code>center</code></td><td>Starts lower and transparent, then moves upward while fading in.</td><td>Moves downward slightly while fading out.</td><td>Confirm dialogs, settings windows, modal pages.</td></tr>
+                </tbody>
+            </table>
+            <h3>Minimal example</h3>
+<pre><code>local frame = Benjis.UI:CreateFrame("F4 Menu", 1100, 700, "sidebar")
+
+local content = frame.Content
+local body = Benjis.UI:CreatePanel(content, "transparent")
+body:Dock(FILL)
+body:DockMargin(Benjis.UI.Padding, Benjis.UI.Padding, Benjis.UI.Padding, Benjis.UI.Padding)</code></pre>
+            <h3>Closing a frame safely</h3>
+<pre><code>local frame = Benjis.UI:CreateFrame("Example", 700, 500, "center")
+
+local btn = Benjis.UI:CreateButton(frame.Content, "Close")
+btn:Dock(TOP)
+btn:DockMargin(12, 12, 12, 0)
+btn.DoClick = function()
+    if frame.CloseAnimated then
+        frame:CloseAnimated()
+    else
+        frame:Remove()
+    end
+end</code></pre>
+            <h3>Header and content structure</h3>
+            <p>The frame internally creates a 56px tall header with the title on the left and a custom close button on the right. Everything below that header is exposed as <code>frame.Content</code>, which is itself a themed <code>DPanel</code>. In practice, you should treat <code>frame.Content</code> as your main container and build all layout inside it.</p>
+            <h3>Frame used as a DarkRP command menu</h3>
+<pre><code>concommand.Add("open_job_terminal", function()
+    if IsValid(BenjisJobTerminal) then
+        BenjisJobTerminal:Remove()
+    end
+
+    local frame = Benjis.UI:CreateFrame("Job Terminal", 980, 640, "sidebar_right")
+    BenjisJobTerminal = frame
+
+    local left = Benjis.UI:CreatePanel(frame.Content, "panel")
+    left:Dock(LEFT)
+    left:SetWide(260)
+    left:DockMargin(12, 12, 12, 12)
+
+    local right = Benjis.UI:CreatePanel(frame.Content, "card")
+    right:Dock(FILL)
+    right:DockMargin(0, 12, 12, 12)
+end)</code></pre>
+        </section>
+
+        <section class="section" id="panels">
+            <h2>Panels</h2>
+            <p><code>CreatePanel(parent, paintStyle)</code> returns a themed <code>DPanel</code> with a pre-selected paint function. The style is resolved once when the panel is created rather than on every frame.</p>
+            <h3>Supported paint styles</h3>
+            <table>
+                <thead>
+                    <tr><th>Style</th><th>Effect</th><th>When to use it</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>panel</code></td><td>Draws a flat box with <code>Theme.Panel</code>.</td><td>Default content containers and standard group boxes.</td></tr>
+                    <tr><td><code>bg</code></td><td>Draws a flat box with <code>Theme.BG</code>.</td><td>Deeper backgrounds and inner window roots.</td></tr>
+                    <tr><td><code>transparent</code></td><td>Does not draw anything.</td><td>Pure layout containers, docking wrappers, spacing shells.</td></tr>
+                    <tr><td><code>card</code></td><td>Draws a rounded card with outline.</td><td>Feature blocks, setting groups, stats cards, inventory sections.</td></tr>
+                </tbody>
+            </table>
+            <h3>Examples</h3>
+<pre><code>local root = Benjis.UI:CreatePanel(frame.Content, "transparent")
+root:Dock(FILL)
+
+local sidebar = Benjis.UI:CreatePanel(root, "panel")
+sidebar:Dock(LEFT)
+sidebar:SetWide(240)
+
+local content = Benjis.UI:CreatePanel(root, "bg")
+content:Dock(FILL)
+content:DockMargin(12, 0, 0, 0)
 
 local card = Benjis.UI:CreatePanel(content, "card")
 card:Dock(TOP)
 card:SetTall(120)
 card:DockMargin(12, 12, 12, 0)</code></pre>
+            <h3>Unknown styles</h3>
+            <p>If you pass an unknown style name, the framework falls back to the default <code>panel</code> painter. That gives safe behaviour instead of a broken panel.</p>
+        </section>
 
-<hr>
-
-<h2>Panels (cl_panel.lua)</h2>
-
-<h3>Panel Styles Example</h3>
-
-<pre><code>Benjis.UI:CreatePanel(parent, "panel")
-Benjis.UI:CreatePanel(parent, "bg")
-Benjis.UI:CreatePanel(parent, "transparent")
-Benjis.UI:CreatePanel(parent, "card")</code></pre>
-
-<hr>
-
-<h2>Buttons (cl_button.lua)</h2>
-
-<h3>Basic Button</h3>
-
+        <section class="section" id="buttons">
+            <h2>Buttons and Confirm Dialogs</h2>
+            <p><code>CreateButton(parent, text, tall)</code> creates a themed <code>DButton</code> with a hover animation. The button stores the visible label in <code>btn.Label</code>, and also exposes <code>btn:SetLabel(txt)</code> so you can update the display text later.</p>
+            <h3>Basic button</h3>
 <pre><code>local btn = Benjis.UI:CreateButton(parent, "Save Settings")
 btn:Dock(TOP)
+btn:DockMargin(0, 0, 0, 8)
 
 btn.DoClick = function()
-    RunConsoleCommand("say", "Saved!")
+    chat.AddText(Color(0, 255, 0), "Settings saved")
 end</code></pre>
+            <h3>Changing label text dynamically</h3>
+<pre><code>local ready = false
+local btn = Benjis.UI:CreateButton(parent, "Start")
+btn:Dock(TOP)
 
-<h3>Button List Example</h3>
-
+btn.DoClick = function(self)
+    ready = not ready
+    self:SetLabel(ready and "Stop" or "Start")
+end</code></pre>
+            <h3>Button list example</h3>
 <pre><code>for i = 1, 5 do
     local btn = Benjis.UI:CreateButton(parent, "Option " .. i)
     btn:Dock(TOP)
+    btn:DockMargin(0, 0, 0, 6)
+    btn.DoClick = function()
+        print("Clicked option", i)
+    end
 end</code></pre>
+            <h3>How hover rendering works</h3>
+            <p>The button smoothly lerps an internal hover value toward <code>1</code> while hovered and back toward <code>0</code> otherwise. That value is then passed into <code>Benjis.UI:LerpColor</code> to blend between <code>Theme.Panel</code> and <code>Theme.Hover</code>.</p>
+            <h3><code>LerpColor</code> caveat</h3>
+            <div class="callout warn">
+                <strong>Do not store the return value of <code>Benjis.UI:LerpColor</code>.</strong> The framework uses one shared mutable colour buffer for performance. Consume the result immediately in a draw call. Storing it for later will produce incorrect colours because the next <code>LerpColor</code> call overwrites that same buffer.</div>
+<pre><code>-- Correct
+local function PaintButton(self, w, h)
+    draw.RoundedBox(0, 0, 0, w, h,
+        Benjis.UI:LerpColor(self.Hover, Benjis.UI.Theme.Panel, Benjis.UI.Theme.Hover)
+    )
+end
 
-<hr>
-
-<h2>Fonts (cl_fonts.lua)</h2>
-
-<h3>Using a Font Preset</h3>
-
-<pre><code>draw.SimpleText(
-    "Hello World",
-    Benjis.UI:GetFontPreset("Header"),
-    20, 20,
-    Benjis.UI.Theme.Text
+-- Wrong
+local col = Benjis.UI:LerpColor(0.5, color_white, color_black)
+-- storing this and reusing it later is unsafe</code></pre>
+            <h3>Confirm dialog</h3>
+            <p><code>Benjis.UI:Confirm(title, text, yesText, noText, yesFunc, noFunc)</code> is the framework’s styled replacement for <code>Derma_Query</code>. It creates a centered animated frame, a message label, and two side-by-side buttons.</p>
+<pre><code>Benjis.UI:Confirm(
+    "Delete Shipment",
+    "Are you sure you want to delete this shipment preset?",
+    "Delete",
+    "Cancel",
+    function()
+        print("Confirmed delete")
+    end,
+    function()
+        print("Cancelled")
+    end
 )</code></pre>
+            <h3>Using Confirm before a DarkRP action</h3>
+<pre><code>deleteButton.DoClick = function()
+    Benjis.UI:Confirm(
+        "Clear Warrants",
+        "This will request a warrant reset for all players. Continue?",
+        "Proceed",
+        "Abort",
+        function()
+            net.Start("BenjisPolice_RequestWarrantReset")
+            net.SendToServer()
+        end
+    )
+end</code></pre>
+            <div class="callout warn">
+                The UI confirmation is not a security layer. The net receiver must still validate that the sender has the correct permissions server-side.
+            </div>
+        </section>
 
-<h3>Registering a Custom Preset</h3>
-
-<pre><code>Benjis.UI:RegisterFontPreset("Huge", {
-    font = "Tahoma",
-    size = 28,
-    options = { weight = 900 }
-})</code></pre>
-
-<hr>
-
-<h2>Scroll Panels (cl_scroll.lua)</h2>
-
-<h3>Scrollable List Example</h3>
-
+        <section class="section" id="scroll">
+            <h2>Scroll Panels</h2>
+            <p><code>CreateScroll(parent)</code> returns a styled <code>DScrollPanel</code> with a slim 6px scrollbar. The up and down buttons, plus the bar background, are intentionally not painted. Only the grip is drawn, using <code>Theme.Accent</code>.</p>
+            <h3>Simple scroll list</h3>
 <pre><code>local scroll = Benjis.UI:CreateScroll(parent)
 scroll:Dock(FILL)
 
-for i = 1, 20 do
-    local btn = Benjis.UI:CreateButton(scroll, "Item " .. i)
+for i = 1, 25 do
+    local btn = Benjis.UI:CreateButton(scroll, "Entry " .. i)
     btn:Dock(TOP)
+    btn:DockMargin(0, 0, 0, 8)
 end</code></pre>
+            <h3>Scrollable card stack</h3>
+<pre><code>local scroll = Benjis.UI:CreateScroll(parent)
+scroll:Dock(FILL)
 
-<hr>
+for i = 1, 8 do
+    local card = Benjis.UI:CreatePanel(scroll, "card")
+    card:Dock(TOP)
+    card:SetTall(100)
+    card:DockMargin(0, 0, 8, 12)
 
-<h2>Lists (cl_list.lua)</h2>
+    local lbl = Benjis.UI:CreateLabel(card, "Card #" .. i, "Header")
+    lbl:Dock(TOP)
+    lbl:DockMargin(12, 12, 12, 0)
+end</code></pre>
+        </section>
 
-<h3>Player List Example</h3>
-
+        <section class="section" id="lists">
+            <h2>Lists and Item Tiles</h2>
+            <p>The list module provides four helpers: <code>CreateList</code>, <code>AddListRow</code>, <code>CreateGrid</code>, and <code>AddItemTile</code>. These cover common scrollable rows and grid-style item tiles.</p>
+            <h3><code>CreateList(parent)</code></h3>
+            <p>This is a convenience wrapper around <code>CreateScroll</code> that docks the scroll panel to fill its parent.</p>
+<pre><code>local list = Benjis.UI:CreateList(parent)</code></pre>
+            <h3><code>AddListRow(list, text, stripColor, iconPath)</code></h3>
+            <p>This adds a clickable row implemented as a <code>DButton</code>. It supports an optional coloured strip on the left and an optional icon image. The text offset automatically changes if an icon is supplied.</p>
 <pre><code>local list = Benjis.UI:CreateList(parent)
 
 for _, ply in ipairs(player.GetAll()) do
-    Benjis.UI:AddListRow(
+    local row = Benjis.UI:AddListRow(
         list,
         ply:Nick(),
-        team.GetColor(ply:Team())
+        team.GetColor(ply:Team()),
+        "icon16/user.png"
     )
+
+    row.DoClick = function()
+        print("Selected player:", ply:Nick())
+    end
 end</code></pre>
+            <h3>Player list without icons</h3>
+<pre><code>for _, ply in ipairs(player.GetAll()) do
+    local row = Benjis.UI:AddListRow(list, ply:Nick(), team.GetColor(ply:Team()))
+    row.DoClick = function()
+        chat.AddText(color_white, "Viewing ", Color(255, 200, 0), ply:Nick())
+    end
+end</code></pre>
+            <h3><code>CreateGrid(parent, spacing)</code></h3>
+            <p>This returns two values: a scroll panel and a <code>DIconLayout</code>. The scroll panel is docked to fill its parent, and the icon layout is created inside it. Use the layout object for adding tiles.</p>
+<pre><code>local scroll, grid = Benjis.UI:CreateGrid(parent, 12)
+scroll:Dock(FILL)</code></pre>
+            <h3><code>AddItemTile(grid, data)</code></h3>
+            <p>This creates a 110x140 button tile with a hover state, model preview, item name, and quantity string. The <code>data</code> table is expected to contain at least <code>name</code>, <code>amount</code>, and <code>model</code>.</p>
+<pre><code>local _, grid = Benjis.UI:CreateGrid(parent, 12)
 
-<p>
-The <code>stripColor</code> argument is optional and can be any Color.
-</p>
+local tile = Benjis.UI:AddItemTile(grid, {
+    name = "Pistol Ammo",
+    amount = 3,
+    model = "models/items/boxsrounds.mdl"
+})
 
-<hr>
+tile.DoClick = function()
+    print("Clicked ammo tile")
+end</code></pre>
+            <h3>Updating a tile after creation</h3>
+            <p>The tile exposes <code>tile:SetName(str)</code> and <code>tile:SetAmount(n)</code>, which update the prebuilt display strings without rebuilding the panel.</p>
+<pre><code>local tile = Benjis.UI:AddItemTile(grid, {
+    name = "Lockpick",
+    amount = 1,
+    model = "models/weapons/w_crowbar.mdl"
+})
 
-<h2>Model Panels (cl_model.lua)</h2>
+-- later
+tile:SetAmount(2)
+tile:SetName("Advanced Lockpick")</code></pre>
+            <h3>Inventory grid example</h3>
+<pre><code>local scroll, grid = Benjis.UI:CreateGrid(parent, 10)
+scroll:Dock(FILL)
 
-<h3>Model Preview Example</h3>
+local items = {
+    { name = "Health Kit", amount = 2, model = "models/items/healthkit.mdl" },
+    { name = "Armor Battery", amount = 1, model = "models/items/battery.mdl" },
+    { name = "Lockpick", amount = 3, model = "models/weapons/w_crowbar.mdl" }
+}
 
+for _, item in ipairs(items) do
+    local tile = Benjis.UI:AddItemTile(grid, item)
+    tile.DoClick = function()
+        print("Use item:", item.name)
+    end
+end</code></pre>
+        </section>
+
+        <section class="section" id="models">
+            <h2>Model Panels</h2>
+            <p>The model module provides a static preview panel and an interactive preview panel.</p>
+            <h3><code>CreateModelPanel(parent, model)</code></h3>
+            <p>This creates a non-interactive <code>DModelPanel</code> with fixed camera settings, disabled idle rotation, and visibility-aware manual painting toggling. It is intended for cheap static previews in tiles, cards, and lists.</p>
 <pre><code>local mdl = Benjis.UI:CreateModelPanel(parent, "models/player/kleiner.mdl")
-mdl:SetSize(200, 300)
-mdl:Dock(LEFT)</code></pre>
+mdl:SetSize(220, 320)
+mdl:Dock(LEFT)
+mdl:DockMargin(0, 0, 12, 0)</code></pre>
+            <h3><code>CreateInteractiveModelPanel(parent, model)</code></h3>
+            <p>This version allows drag-to-rotate and mousewheel zoom. It tracks the current yaw in <code>pnl.Angles</code> and the camera distance in <code>pnl.Zoom</code>.</p>
+<pre><code>local mdl = Benjis.UI:CreateInteractiveModelPanel(parent, LocalPlayer():GetModel())
+mdl:Dock(FILL)</code></pre>
+            <h3>Character preview example</h3>
+<pre><code>local card = Benjis.UI:CreatePanel(parent, "card")
+card:Dock(FILL)
 
-<hr>
+local mdl = Benjis.UI:CreateInteractiveModelPanel(card, LocalPlayer():GetModel())
+mdl:Dock(FILL)
 
-<h2>Best Practices</h2>
+local apply = Benjis.UI:CreateButton(card, "Apply Outfit")
+apply:Dock(BOTTOM)
+apply:DockMargin(12, 12, 12, 12)</code></pre>
+            <h3>Static tile preview example</h3>
+<pre><code>local tile = Benjis.UI:AddItemTile(grid, {
+    name = "MP5",
+    amount = 1,
+    model = "models/weapons/w_smg1.mdl"
+})</code></pre>
+            <div class="callout good">
+                The static model panel disables idle animation and avoids needless rendering work when hidden. The interactive version only updates the camera when zoom changes and only updates the entity angle when the user is actively dragging and the mouse has actually moved.
+            </div>
+        </section>
 
-<ul>
-    <li>Do not paint raw VGUI elements outside the framework</li>
-    <li>Use font presets instead of hardcoded fonts</li>
-    <li>Use Dock and DockMargin consistently</li>
-    <li>Let the theme control all colors</li>
-    <li>Keep logic separate from UI layout</li>
-</ul>
+        <section class="section" id="tabs">
+            <h2>Tabs</h2>
+            <p><code>CreateTabs(parent, opts)</code> provides a lightweight tab/page switcher for interfaces such as F4 subpages, inventories, admin panels, chatboxes, and settings menus. It does not use <code>DPropertySheet</code>. Instead, it manages a button strip and one page panel per tab.</p>
+            <h3>Options</h3>
+            <table>
+                <thead>
+                    <tr><th>Option</th><th>Purpose</th><th>Default</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>tabHeight</code></td><td>Height of the tab button strip.</td><td><code>34</code></td></tr>
+                    <tr><td><code>tabSpacing</code></td><td>Spacing between tab buttons.</td><td><code>6</code></td></tr>
+                    <tr><td><code>contentStyle</code></td><td>Paint style used for the content area panel.</td><td><code>"transparent"</code></td></tr>
+                    <tr><td><code>onTabChanged</code></td><td>Callback triggered after switching tabs.</td><td><code>nil</code></td></tr>
+                </tbody>
+            </table>
+            <h3>Main methods</h3>
+            <table>
+                <thead>
+                    <tr><th>Method</th><th>Purpose</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>tabs:AddTab(id, title, buildFunc)</code></td><td>Creates a button and page for a new tab.</td></tr>
+                    <tr><td><code>tabs:SetTabLabel(id, title)</code></td><td>Changes the display text and button width.</td></tr>
+                    <tr><td><code>tabs:SetActiveTab(id)</code></td><td>Shows the target page and hides all others.</td></tr>
+                    <tr><td><code>tabs:GetActiveTab()</code></td><td>Returns the active tab ID.</td></tr>
+                    <tr><td><code>tabs:GetPage(id)</code></td><td>Returns the page panel for a tab ID.</td></tr>
+                </tbody>
+            </table>
+            <h3>Basic tabs example</h3>
+<pre><code>local tabs = Benjis.UI:CreateTabs(parent, {
+    tabHeight = 36,
+    tabSpacing = 8,
+    contentStyle = "transparent"
+})
+tabs:Dock(FILL)
 
+tabs:AddTab("jobs", "Jobs", function(page)
+    local lbl = Benjis.UI:CreateLabel(page, "Available jobs go here.", "Text")
+    lbl:Dock(TOP)
+end)
+
+tabs:AddTab("shipments", "Shipments", function(page)
+    local lbl = Benjis.UI:CreateLabel(page, "Shipment listing goes here.", "Text")
+    lbl:Dock(TOP)
+end)</code></pre>
+            <h3>Using <code>onTabChanged</code></h3>
+<pre><code>local tabs = Benjis.UI:CreateTabs(parent, {
+    onTabChanged = function(self, newID, oldID, page, button)
+        print("Changed tab from", oldID, "to", newID)
+    end
+})</code></pre>
+            <h3>Changing a tab title later</h3>
+<pre><code>tabs:SetTabLabel("jobs", "Jobs (12)")</code></pre>
+            <h3>DarkRP F4 style page layout example</h3>
+<pre><code>local frame = Benjis.UI:CreateFrame("City Menu", 1180, 720, "sidebar")
+
+local tabs = Benjis.UI:CreateTabs(frame.Content, {
+    tabHeight = 40,
+    tabSpacing = 10,
+    contentStyle = "transparent"
+})
+tabs:Dock(FILL)
+tabs:DockMargin(12, 12, 12, 12)
+
+tabs:AddTab("jobs", "Jobs", function(page)
+    local scroll = Benjis.UI:CreateScroll(page)
+    scroll:Dock(FILL)
+end)
+
+tabs:AddTab("entities", "Entities", function(page)
+    local scroll = Benjis.UI:CreateScroll(page)
+    scroll:Dock(FILL)
+end)
+
+tabs:AddTab("weapons", "Weapons", function(page)
+    local scroll = Benjis.UI:CreateScroll(page)
+    scroll:Dock(FILL)
+end)
+
+tabs:AddTab("settings", "Settings", function(page)
+    local entry = Benjis.UI:CreateTextEntry(page, { placeholder = "Search settings..." })
+    entry:Dock(TOP)
+end)</code></pre>
+        </section>
+
+        <section class="section" id="textentry">
+            <h2>Text Entries and Search Boxes</h2>
+            <p>The text entry module provides <code>CreateTextEntry(parent, opts)</code> and <code>CreateSearchEntry(parent, opts)</code>. These are themed wrappers around <code>DTextEntry</code> with hover/focus interpolation, placeholder rendering, custom colours, and state setters.</p>
+            <h3>Supported options</h3>
+            <table>
+                <thead>
+                    <tr><th>Option</th><th>Purpose</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>tall</code></td><td>Control height. Default <code>36</code>.</td></tr>
+                    <tr><td><code>font</code></td><td>Explicit font ID to use.</td></tr>
+                    <tr><td><code>preset</code></td><td>Font preset name used if <code>font</code> is not supplied.</td></tr>
+                    <tr><td><code>textColor</code></td><td>Typed text colour.</td></tr>
+                    <tr><td><code>cursorColor</code></td><td>Cursor colour.</td></tr>
+                    <tr><td><code>highlightColor</code></td><td>Selection highlight colour.</td></tr>
+                    <tr><td><code>placeholder</code></td><td>Placeholder text shown while empty and unfocused.</td></tr>
+                    <tr><td><code>placeholderColor</code></td><td>Placeholder text colour.</td></tr>
+                    <tr><td><code>bgColor</code></td><td>Idle background colour.</td></tr>
+                    <tr><td><code>hoverColor</code></td><td>Hover background colour.</td></tr>
+                    <tr><td><code>activeColor</code></td><td>Focus background colour.</td></tr>
+                    <tr><td><code>outlineColor</code></td><td>Border colour.</td></tr>
+                    <tr><td><code>textInsetX</code>, <code>textInsetY</code></td><td>Text inset/padding.</td></tr>
+                    <tr><td><code>rounded</code></td><td>Rounded corner size. Defaults to <code>6</code>.</td></tr>
+                    <tr><td><code>updateOnType</code></td><td>Whether text updates on each typed character.</td></tr>
+                    <tr><td><code>enterAllowed</code></td><td>Whether pressing Enter is allowed.</td></tr>
+                    <tr><td><code>numeric</code></td><td>Numeric-only input.</td></tr>
+                    <tr><td><code>multiline</code></td><td>Enable multiline mode.</td></tr>
+                    <tr><td><code>value</code></td><td>Initial value.</td></tr>
+                </tbody>
+            </table>
+            <h3>Basic text entry</h3>
+<pre><code>local entry = Benjis.UI:CreateTextEntry(parent, {
+    placeholder = "Enter title...",
+    tall = 38
+})
+entry:Dock(TOP)
+entry:DockMargin(0, 0, 0, 12)</code></pre>
+            <h3>Numeric entry</h3>
+<pre><code>local amountEntry = Benjis.UI:CreateTextEntry(parent, {
+    placeholder = "Amount",
+    numeric = true,
+    value = 1,
+    tall = 36
+})</code></pre>
+            <h3>Multiline notes field</h3>
+<pre><code>local notes = Benjis.UI:CreateTextEntry(parent, {
+    placeholder = "Internal notes...",
+    multiline = true,
+    enterAllowed = true,
+    tall = 140,
+    textInsetY = 8
+})
+notes:Dock(TOP)</code></pre>
+            <h3>Search entry</h3>
+            <p><code>CreateSearchEntry</code> is a small wrapper that sets the default placeholder to <code>Search...</code>, increases left text inset to make space for an icon, and paints a magnifier icon on the left.</p>
+<pre><code>local search = Benjis.UI:CreateSearchEntry(parent, {
+    placeholder = "Search warrants...",
+    updateOnType = true
+})
+search:Dock(TOP)
+
+search.OnValueChange = function(self, value)
+    print("Search changed:", value)
+end</code></pre>
+            <h3>Changing state colours at runtime</h3>
+<pre><code>local entry = Benjis.UI:CreateTextEntry(parent, {
+    placeholder = "Custom palette"
+})
+
+entry:SetStateColors(
+    Color(12, 16, 22, 235),
+    Color(18, 28, 42, 235),
+    Color(24, 36, 58, 235),
+    Color(0, 0, 0, 180)
+)
+
+entry:SetPlaceholderColor(Color(140, 165, 190))</code></pre>
+            <div class="callout warn">
+                The module explicitly notes that clientside validation is presentation-only. Never trust input from these entries for money, ranks, jobs, inventory actions, database writes, or administrative actions without strict server-side checks.
+            </div>
+        </section>
+
+        <section class="section" id="patterns">
+            <h2>Recommended Usage Patterns</h2>
+            <h3>1. Use layout wrappers aggressively</h3>
+            <p>Use <code>transparent</code> panels as layout shells. Keep visible paint styles for actual visual sections only. That keeps your structure readable and prevents unnecessary paint work.</p>
+<pre><code>local shell = Benjis.UI:CreatePanel(frame.Content, "transparent")
+shell:Dock(FILL)
+shell:DockMargin(12, 12, 12, 12)
+
+local left = Benjis.UI:CreatePanel(shell, "panel")
+left:Dock(LEFT)
+left:SetWide(260)
+
+local right = Benjis.UI:CreatePanel(shell, "transparent")
+right:Dock(FILL)
+right:DockMargin(12, 0, 0, 0)</code></pre>
+            <h3>2. Keep UI creation separate from action logic</h3>
+            <p>Build the panel structure in one function and keep data loading, filtering, and net message handling in separate functions. That makes the framework easy to reuse across DarkRP jobs, entity menus, and admin tools.</p>
+<pre><code>local function BuildPlayerListPage(parent)
+    local list = Benjis.UI:CreateList(parent)
+
+    for _, ply in ipairs(player.GetAll()) do
+        local row = Benjis.UI:AddListRow(list, ply:Nick(), team.GetColor(ply:Team()))
+        row.DoClick = function()
+            OpenPlayerInspector(ply)
+        end
+    end
+end</code></pre>
+            <h3>3. Use theme and presets, not hardcoded styling</h3>
+            <p>If every page uses the same theme and font presets, you can rebrand or rebalance contrast later without rewriting every menu.</p>
+            <h3>4. Prefer static model panels in dense grids</h3>
+            <p>Use <code>CreateModelPanel</code> for tiles and list entries. Reserve <code>CreateInteractiveModelPanel</code> for one or two prominent previews such as character customisation or item inspection.</p>
+        </section>
+
+        <section class="section" id="pitfalls">
+            <h2>Important Caveats</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3><code>LerpColor</code> returns shared state</h3>
+                    <p>Do not cache it. Pass it directly into <code>draw.RoundedBox</code>, <code>draw.SimpleText</code>, or another immediate draw call.</p>
+                </div>
+                <div class="card">
+                    <h3>Theme aliases are captured</h3>
+                    <p>Some modules localise theme references when controls are created. If you replace the theme after panels already exist, existing controls may still be using earlier references until rebuilt.</p>
+                </div>
+                <div class="card">
+                    <h3>Text entries do not secure anything</h3>
+                    <p>Clients can still spoof input. Validate values server-side, clamp lengths, check permissions, and rate-limit requests.</p>
+                </div>
+                <div class="card">
+                    <h3>Interactive model panels cost more</h3>
+                    <p>They are optimised, but they still do more work than static previews. Avoid filling huge scrolling inventories with interactive model panels.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" id="examples">
+            <h2>Extended Examples</h2>
+
+            <h3>Example 1: Searchable command list</h3>
+<pre><code>local frame = Benjis.UI:CreateFrame("Command Browser", 900, 620, "center")
+
+local root = Benjis.UI:CreatePanel(frame.Content, "transparent")
+root:Dock(FILL)
+root:DockMargin(12, 12, 12, 12)
+
+local search = Benjis.UI:CreateSearchEntry(root, {
+    placeholder = "Search chat commands...",
+    updateOnType = true
+})
+search:Dock(TOP)
+search:DockMargin(0, 0, 0, 12)
+
+local list = Benjis.UI:CreateList(root)
+
+local commands = {
+    { name = "/dropmoney", color = Color(46, 204, 113) },
+    { name = "/lockdown",  color = Color(231, 76, 60) },
+    { name = "/wanted",    color = Color(241, 196, 15) },
+    { name = "/job",       color = Color(52, 152, 219) }
+}
+
+local function RebuildList(filter)
+    list:Clear()
+
+    filter = string.Trim(string.lower(filter or ""))
+
+    for _, cmd in ipairs(commands) do
+        if filter == "" or string.find(string.lower(cmd.name), filter, 1, true) then
+            local row = Benjis.UI:AddListRow(list, cmd.name, cmd.color, "icon16/script.png")
+            row.DoClick = function()
+                SetClipboardText(cmd.name)
+            end
+        end
+    end
+end
+
+search.OnValueChange = function(self, value)
+    RebuildList(value)
+end
+
+RebuildList()</code></pre>
+
+            <h3>Example 2: Simple inventory viewer</h3>
+<pre><code>local frame = Benjis.UI:CreateFrame("Inventory", 1000, 700, "sidebar_right")
+
+local wrap = Benjis.UI:CreatePanel(frame.Content, "transparent")
+wrap:Dock(FILL)
+wrap:DockMargin(12, 12, 12, 12)
+
+local search = Benjis.UI:CreateSearchEntry(wrap, {
+    placeholder = "Search inventory...",
+    updateOnType = true
+})
+search:Dock(TOP)
+search:DockMargin(0, 0, 0, 12)
+
+local scroll, grid = Benjis.UI:CreateGrid(wrap, 10)
+scroll:Dock(FILL)
+
+local items = {
+    { name = "Lockpick", amount = 2, model = "models/weapons/w_crowbar.mdl" },
+    { name = "Medkit", amount = 1, model = "models/items/healthkit.mdl" },
+    { name = "Battery", amount = 4, model = "models/items/battery.mdl" }
+}
+
+local function RebuildInventory(filter)
+    grid:Clear()
+    filter = string.Trim(string.lower(filter or ""))
+
+    for _, item in ipairs(items) do
+        if filter == "" or string.find(string.lower(item.name), filter, 1, true) then
+            local tile = Benjis.UI:AddItemTile(grid, item)
+            tile.DoClick = function()
+                print("Selected item:", item.name)
+            end
+        end
+    end
+end
+
+search.OnValueChange = function(self, value)
+    RebuildInventory(value)
+end
+
+RebuildInventory()</code></pre>
+
+            <h3>Example 3: Administrative inspector with tabs</h3>
+<pre><code>local frame = Benjis.UI:CreateFrame("Admin Inspector", 1180, 760, "sidebar")
+
+local tabs = Benjis.UI:CreateTabs(frame.Content, {
+    tabHeight = 40,
+    tabSpacing = 8,
+    contentStyle = "transparent",
+    onTabChanged = function(self, newID, oldID)
+        print("Switched from", oldID, "to", newID)
+    end
+})
+tabs:Dock(FILL)
+tabs:DockMargin(12, 12, 12, 12)
+
+tabs:AddTab("players", "Players", function(page)
+    local list = Benjis.UI:CreateList(page)
+
+    for _, ply in ipairs(player.GetAll()) do
+        local row = Benjis.UI:AddListRow(page, ply:Nick(), team.GetColor(ply:Team()), "icon16/user.png")
+        row.DoClick = function()
+            print("Inspect player", ply:SteamID())
+        end
+    end
+end)
+
+tabs:AddTab("logs", "Logs", function(page)
+    local box = Benjis.UI:CreateTextEntry(page, {
+        multiline = true,
+        tall = 400,
+        value = "Recent moderation actions will appear here..."
+    })
+    box:Dock(FILL)
+end)
+
+tabs:AddTab("preview", "Character Preview", function(page)
+    local mdl = Benjis.UI:CreateInteractiveModelPanel(page, LocalPlayer():GetModel())
+    mdl:Dock(FILL)
+end)</code></pre>
+            <div class="callout warn">
+                In the final example, the <code>players</code> tab should create list rows inside the list panel, not directly on the page, when used in production. Keep parent references precise when building reusable pages.
+            </div>
+        </section>
+
+        <section class="section footer">
+            This wiki reflects the current Benjis.UI framework modules. 
+            [[ ALL INFORMATION IN THIS WIKI WAS MADE USING CHAT GPT DIRECTLY READING THE UI FILES! WARNING!!! ]]
+        </section>
+    </main>
+</div>
 </body>
 </html>
