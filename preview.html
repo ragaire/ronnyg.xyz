@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Benji's RP Loading</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+:root {
+    --bg:#0f1115;
+    --panel:rgba(255,255,255,0.05);
+    --border:rgba(255,255,255,0.1);
+    --text:#f5f7fa;
+    --muted:#9aa4b2;
+}
+*{box-sizing:border-box}
+html,body{
+    margin:0;height:100%;
+    font-family:Arial,Helvetica,sans-serif;
+    background:linear-gradient(180deg,#141821,#0b0d12);
+    color:var(--text);
+}
+body{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+.wrap{
+    width:100%;
+    max-width:1000px;
+    display:grid;
+    grid-template-columns:1.5fr 1fr;
+    gap:20px;
+}
+.main,.info{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:14px;
+}
+.main{
+    padding:30px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+
+/* Banner logo styling */
+.logo{
+    width:100%;
+    margin-bottom:20px;
+}
+.logo img{
+    width:100%;
+    max-height:120px;
+    object-fit:contain;
+}
+
+/* Text */
+h1{
+    margin:0 0 10px 0;
+    font-size:26px;
+}
+.status{
+    font-size:18px;
+    margin-bottom:15px;
+}
+.progress{
+    height:8px;
+    background:rgba(255,255,255,0.08);
+    border-radius:999px;
+    overflow:hidden;
+    margin-bottom:10px;
+}
+.bar{
+    height:100%;
+    width:0%;
+    background:#fff;
+    transition:width .2s;
+}
+.file{
+    font-size:13px;
+    color:var(--muted);
+}
+
+/* Info box */
+.info{
+    padding:20px;
+}
+.row{
+    margin-bottom:12px;
+}
+.label{
+    font-size:11px;
+    color:var(--muted);
+    text-transform:uppercase;
+}
+.value{
+    font-size:14px;
+    font-weight:600;
+}
+
+@media(max-width:800px){
+    .wrap{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+    <div class="main">
+        <div class="logo">
+            <img src="https://benjisrp.com/img/benjis.png">
+        </div>
+
+        <h1 id="serverNameHero">Loading...</h1>
+        <div class="status" id="status">Connecting...</div>
+
+        <div class="progress"><div class="bar" id="bar"></div></div>
+        <div class="file" id="file">Waiting for files...</div>
+    </div>
+
+    <div class="info">
+        <div class="row"><div class="label">Server</div><div class="value" id="serverName">...</div></div>
+        <div class="row"><div class="label">Gamemode</div><div class="value" id="gamemode">...</div></div>
+        <div class="row"><div class="label">Map</div><div class="value" id="map">...</div></div>
+        <div class="row"><div class="label">Files</div><div class="value" id="files">0 / 0</div></div>
+    </div>
+</div>
+
+<script>
+let data = {
+    name:"Loading...",
+    gm:"Unknown",
+    map:"Unknown",
+    total:0,
+    current:0,
+    file:"Waiting...",
+    status:"Connecting..."
+};
+
+const el = {
+    hero:document.getElementById("serverNameHero"),
+    name:document.getElementById("serverName"),
+    gm:document.getElementById("gamemode"),
+    map:document.getElementById("map"),
+    files:document.getElementById("files"),
+    status:document.getElementById("status"),
+    file:document.getElementById("file"),
+    bar:document.getElementById("bar")
+};
+
+function update(){
+    el.hero.textContent=data.name;
+    el.name.textContent=data.name;
+    el.gm.textContent=data.gm;
+    el.map.textContent=data.map;
+    el.files.textContent=data.current+" / "+data.total;
+    el.status.textContent=data.status;
+    el.file.textContent=data.file;
+
+    let p = data.total>0 ? (data.current/data.total)*100 : 0;
+    el.bar.style.width=p+"%";
+}
+
+/* GMod hooks */
+window.GameDetails = function(name, url, map, max, steamid, gm){
+    data.name=name||"Unknown";
+    data.gm=gm||"Unknown";
+    data.map=map||"Unknown";
+    update();
+};
+
+window.SetFilesNeeded = function(n){
+    data.total=parseInt(n)||0;
+    update();
+};
+
+window.DownloadingFile = function(f){
+    data.current++;
+    data.file=f||"Downloading...";
+    data.status="Downloading content...";
+    update();
+};
+
+window.SetStatusChanged = function(s){
+    data.status=s||"Connecting...";
+    update();
+};
+
+update();
+</script>
+</body>
+</html>
