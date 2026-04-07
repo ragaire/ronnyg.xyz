@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Benji's RP Loading</title>
+
+<!-- Bebas Neue font -->
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+
+        background: linear-gradient(
+            180deg,
+            #050505 0%,
+            #0a0a0a 40%,
+            #1a0f0f 70%,
+            #2a1414 100%
+        );
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        color: #fff;
+    }
+
+    /* Logo text */
+    .logo {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 96px;
+        letter-spacing: 6px;
+        line-height: 1;
+
+        /* subtle glow */
+        color: #ffffff;
+        text-shadow:
+            0 0 10px rgba(255,255,255,0.05),
+            0 0 20px rgba(255,80,80,0.15);
+
+        margin-bottom: 40px;
+    }
+
+    .sub {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        color: #888;
+        letter-spacing: 2px;
+        margin-top: -10px;
+        margin-bottom: 30px;
+    }
+
+    .progress-container {
+        width: 400px;
+        max-width: 80%;
+        height: 6px;
+        background: rgba(255,255,255,0.05);
+        border-radius: 4px;
+        overflow: hidden;
+        margin-bottom: 10px;
+    }
+
+    .progress-bar {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #ff4d4d, #ff884d);
+        transition: width 0.2s ease;
+    }
+
+    .status {
+        font-size: 14px;
+        color: #aaa;
+        margin-bottom: 60px;
+        text-align: center;
+    }
+
+    .footer {
+        position: absolute;
+        bottom: 15px;
+        font-size: 12px;
+        color: #666;
+        letter-spacing: 0.5px;
+    }
+</style>
+</head>
+
+<body>
+
+    <div class="logo">Southside RP</div>
+    <div class="sub">Semi-Serious DarkRP</div>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progress"></div>
+    </div>
+
+    <div class="status" id="status">
+        Initializing...
+    </div>
+
+    <div class="footer">
+        This server is currently in development
+    </div>
+
+<script>
+    let filesNeeded = 0;
+    let filesTotal = 0;
+
+    function SetStatusChanged(status) {
+        document.getElementById("status").innerText = status;
+    }
+
+    function SetFilesNeeded(needed) {
+        filesTotal = needed;
+        filesNeeded = needed;
+        updateProgress();
+    }
+
+    function SetFilesTotal(total) {
+        filesTotal = total;
+        updateProgress();
+    }
+
+    function DownloadingFile(file) {
+        filesNeeded--;
+        updateProgress();
+
+        document.getElementById("status").innerText =
+            "Downloading: " + file;
+    }
+
+    function updateProgress() {
+        if (filesTotal <= 0) return;
+
+        let progress = ((filesTotal - filesNeeded) / filesTotal) * 100;
+        document.getElementById("progress").style.width = progress + "%";
+    }
+
+    function GameDetails(servername, serverurl, mapname) {
+        document.getElementById("status").innerText =
+            servername + " | Loading map: " + mapname;
+    }
+</script>
+
+</body>
+</html>
