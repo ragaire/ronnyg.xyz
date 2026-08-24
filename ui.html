@@ -1,1168 +1,513 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Benjis.UI Framework Wiki</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BUI 1.0 Documentation</title>
 <style>
-    :root {
-        --bg: #0b0d10;
-        --bg-elev: #12161b;
-        --bg-soft: #171c22;
-        --border: #262d36;
-        --text: #edf2f7;
-        --muted: #a9b4c2;
-        --accent: #d14d4d;
-        --accent-soft: rgba(209, 77, 77, 0.12);
-        --code: #0f1318;
-        --good: #7bd88f;
-        --warn: #ffd166;
-        --shadow: 0 18px 50px rgba(0,0,0,0.35);
-        --radius: 14px;
-        --radius-sm: 10px;
-        --content: 1180px;
-    }
-
-    * { box-sizing: border-box; }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-        margin: 0;
-        background:
-            radial-gradient(circle at top right, rgba(209,77,77,0.08), transparent 28%),
-            linear-gradient(180deg, #0a0c0f 0%, #0d1014 100%);
-        color: var(--text);
-        font: 16px/1.7 Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-
-    a { color: #ff8d8d; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-
-    .shell {
-        display: grid;
-        grid-template-columns: 290px minmax(0, 1fr);
-        gap: 32px;
-        max-width: 1600px;
-        margin: 0 auto;
-        padding: 28px;
-    }
-
-    .sidebar {
-        position: sticky;
-        top: 20px;
-        align-self: start;
-        background: rgba(18,22,27,0.82);
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        padding: 18px;
-        backdrop-filter: blur(12px);
-        box-shadow: var(--shadow);
-        max-height: calc(100vh - 40px);
-        overflow: auto;
-    }
-
-    .brand {
-        font-size: 13px;
-        text-transform: uppercase;
-        letter-spacing: 0.14em;
-        color: var(--muted);
-        margin-bottom: 6px;
-    }
-
-    .sidebar h2 {
-        font-size: 20px;
-        margin: 0 0 14px;
-    }
-
-    .sidebar nav a {
-        display: block;
-        padding: 8px 10px;
-        margin: 2px 0;
-        border-radius: 8px;
-        color: #dbe4ef;
-    }
-
-    .sidebar nav a:hover {
-        background: var(--accent-soft);
-        text-decoration: none;
-    }
-
-    .main {
-        min-width: 0;
-    }
-
-    .hero,
-    .card,
-    .callout,
-    pre,
-    table {
-        box-shadow: var(--shadow);
-    }
-
-    .hero {
-        background: linear-gradient(180deg, rgba(23,28,34,0.98), rgba(18,22,27,0.98));
-        border: 1px solid var(--border);
-        border-radius: 22px;
-        padding: 36px;
-        margin-bottom: 28px;
-        overflow: hidden;
-        position: relative;
-    }
-
-    .hero::after {
-        content: "";
-        position: absolute;
-        inset: auto -80px -80px auto;
-        width: 240px;
-        height: 240px;
-        background: radial-gradient(circle, rgba(209,77,77,0.18), transparent 70%);
-        pointer-events: none;
-    }
-
-    .eyebrow {
-        display: inline-block;
-        background: var(--accent-soft);
-        color: #ffb1b1;
-        border: 1px solid rgba(209,77,77,0.25);
-        font-size: 12px;
-        text-transform: uppercase;
-        letter-spacing: 0.14em;
-        padding: 6px 10px;
-        border-radius: 999px;
-        margin-bottom: 16px;
-    }
-
-    h1, h2, h3, h4 {
-        line-height: 1.2;
-        margin: 0 0 14px;
-        color: #fff;
-    }
-
-    h1 { font-size: 42px; }
-    h2 { font-size: 28px; margin-top: 42px; }
-    h3 { font-size: 21px; margin-top: 30px; }
-    h4 { font-size: 17px; margin-top: 24px; }
-
-    p, li { color: #dbe4ef; }
-    .muted { color: var(--muted); }
-
-    .grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 18px;
-        margin: 22px 0;
-    }
-
-    .card {
-        background: linear-gradient(180deg, rgba(22,27,33,0.98), rgba(16,20,25,0.98));
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        padding: 20px;
-    }
-
-    .card h3,
-    .card h4 {
-        margin-top: 0;
-    }
-
-    .callout {
-        background: rgba(209,77,77,0.08);
-        border: 1px solid rgba(209,77,77,0.22);
-        border-left: 4px solid var(--accent);
-        border-radius: 12px;
-        padding: 16px 18px;
-        margin: 18px 0;
-    }
-
-    .callout.warn {
-        background: rgba(255,209,102,0.08);
-        border-color: rgba(255,209,102,0.22);
-        border-left-color: var(--warn);
-    }
-
-    .callout.good {
-        background: rgba(123,216,143,0.08);
-        border-color: rgba(123,216,143,0.22);
-        border-left-color: var(--good);
-    }
-
-    code {
-        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-        background: rgba(255,255,255,0.05);
-        padding: 2px 6px;
-        border-radius: 6px;
-        font-size: 0.95em;
-    }
-
-    pre {
-        background: var(--code);
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        padding: 18px;
-        overflow: auto;
-        margin: 16px 0 22px;
-    }
-
-    pre code {
-        background: transparent;
-        padding: 0;
-        border-radius: 0;
-        font-size: 14px;
-        color: #f7fbff;
-        display: block;
-        white-space: pre;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        background: rgba(18,22,27,0.98);
-        border: 1px solid var(--border);
-        border-radius: 14px;
-        overflow: hidden;
-        margin: 18px 0 26px;
-    }
-
-    th, td {
-        border-bottom: 1px solid var(--border);
-        padding: 12px 14px;
-        vertical-align: top;
-        text-align: left;
-    }
-
-    th {
-        background: rgba(255,255,255,0.03);
-        color: #fff;
-    }
-
-    tr:last-child td { border-bottom: 0; }
-
-    ul, ol { padding-left: 22px; }
-
-    .section {
-        max-width: var(--content);
-    }
-
-    .footer {
-        margin: 50px 0 20px;
-        color: var(--muted);
-        font-size: 14px;
-    }
-
-    @media (max-width: 1100px) {
-        .shell {
-            grid-template-columns: 1fr;
-        }
-        .sidebar {
-            position: static;
-            max-height: none;
-        }
-        .grid {
-            grid-template-columns: 1fr;
-        }
-        h1 { font-size: 34px; }
-    }
+:root{color-scheme:dark;--bg:#0d0f13;--surface:#16191f;--raised:#1d2129;--border:#393f4b;--text:#f1f4f8;--muted:#9aa3b2;--accent:#4d84ff;--good:#43be7b;--warn:#edb043;--bad:#e7565c;--radius:8px}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.65 Inter,system-ui,-apple-system,"Segoe UI",sans-serif}.shell{display:grid;grid-template-columns:280px minmax(0,1fr);min-height:100vh}.sidebar{position:sticky;top:0;height:100vh;overflow:auto;padding:28px 20px;border-right:1px solid var(--border);background:#101217}.brand{font-size:23px;font-weight:750;letter-spacing:-.03em}.version{display:inline-block;margin:7px 0 22px;padding:2px 8px;border-radius:99px;background:rgba(77,132,255,.15);color:#91b2ff;font-size:12px}.sidebar a{display:block;padding:5px 9px;border-radius:6px;color:var(--muted);text-decoration:none}.sidebar a:hover{color:var(--text);background:var(--raised)}.sidebar h4{margin:18px 9px 5px;color:#687286;font-size:11px;text-transform:uppercase;letter-spacing:.12em}.content{width:min(1120px,100%);padding:58px clamp(28px,5vw,84px) 120px}section{scroll-margin-top:24px;margin:0 0 72px}h1{font-size:48px;line-height:1.08;letter-spacing:-.045em;margin:0 0 20px}h2{font-size:30px;letter-spacing:-.03em;margin:0 0 18px;padding-top:4px}h3{font-size:20px;margin:30px 0 10px}h4{margin:20px 0 8px}p{color:#c9ced7;max-width:850px}a{color:#91b2ff}.lead{font-size:19px;color:var(--muted);max-width:760px}.callout{padding:16px 18px;border:1px solid var(--border);border-left:4px solid var(--accent);border-radius:var(--radius);background:var(--surface)}code{font-family:"JetBrains Mono",Consolas,monospace;font-size:.92em}p code,li code,td code{padding:2px 5px;border-radius:4px;background:var(--raised);color:#b9ccff}pre{position:relative;overflow:auto;margin:13px 0 22px;padding:18px 20px;border:1px solid var(--border);border-radius:var(--radius);background:#0a0c0f;color:#d9e2f5;line-height:1.55}table{width:100%;border-collapse:collapse;margin:13px 0 28px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}th,td{padding:11px 13px;border-bottom:1px solid var(--border);vertical-align:top;text-align:left}th{background:var(--raised);font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}td{color:#cbd1db}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}.card{padding:17px;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface)}.card h3{margin:0 0 7px}.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}.swatch{padding:42px 10px 9px;border:1px solid var(--border);border-radius:6px;background:var(--surface);font-size:12px}.pill{padding:2px 7px;border-radius:99px;background:var(--raised);color:var(--muted);font-size:12px;white-space:nowrap}.good{color:var(--good)}.warn{color:var(--warn)}.bad{color:var(--bad)}ul{padding-left:20px;color:#cbd1db}@media(max-width:850px){.shell{display:block}.sidebar{position:relative;width:100%;height:auto;border-right:0;border-bottom:1px solid var(--border)}.sidebar nav{columns:2}.content{padding:38px 22px 90px}h1{font-size:38px}}@media print{.sidebar{display:none}.shell{display:block}.content{max-width:none;padding:20px}section{break-inside:avoid}body{background:#fff;color:#111}p,td,li{color:#333}}
 </style>
 </head>
 <body>
 <div class="shell">
-    <aside class="sidebar">
-        <div class="brand">Documentation</div>
-        <h2>Benjis.UI</h2>
-        <nav>
-            <a href="#overview">Overview</a>
-            <a href="#include-order">Suggested File Load Order</a>
-            <a href="#quick-start">Quick Start</a>
-            <a href="#theme">Theme System</a>
-            <a href="#fonts">Fonts and Labels</a>
-            <a href="#frames">Frames and Windows</a>
-            <a href="#panels">Panels</a>
-            <a href="#buttons">Buttons and Confirm Dialogs</a>
-            <a href="#scroll">Scroll Panels</a>
-            <a href="#lists">Lists and Item Tiles</a>
-            <a href="#models">Model Panels</a>
-            <a href="#tabs">Tabs</a>
-            <a href="#textentry">Text Entries and Search Boxes</a>
-            <a href="#patterns">Recommended Usage Patterns</a>
-            <a href="#pitfalls">Important Caveats</a>
-            <a href="#examples">Extended Examples</a>
-        </nav>
-    </aside>
+<aside class="sidebar">
+<div class="brand">BUI</div><span class="version">Version 1.1.0</span>
+<nav>
+<h4>Start</h4><a href="#overview">Overview</a><a href="#installation">Installation</a><a href="#structure">Structure & realms</a><a href="#first-menu">First menu</a><a href="#addon-guide">Creating an Addon with BUI</a>
+<h4>Design system</h4><a href="#themes">Themes & colours</a><a href="#fonts">Fonts</a><a href="#scaling">Responsive scaling</a><a href="#icons">Icons</a><a href="#animations">Animations</a>
+<h4>Building</h4><a href="#components">Component catalogue</a><a href="#frames">Frames & presets</a><a href="#layouts">Layouts</a><a href="#overlays">Modals & notifications</a><a href="#world-surfaces">World surfaces</a><a href="#custom">Extending BUI</a>
+<h4>Operations</h4><a href="#configuration">Configuration</a><a href="#networking">Networking & realms</a><a href="#hooks">Hooks</a><a href="#performance">Performance</a><a href="#darkrp">DarkRP example</a><a href="#mistakes">Common mistakes</a><a href="#api">API reference</a>
+</nav>
+</aside>
+<main class="content">
+<section id="overview"><h1>A coherent UI system for Garry's Mod.</h1><p class="lead">BUI is a reusable VGUI component library and design system. It centralizes visual tokens, scaling, fonts, layouts, frame presets, animation, overlays and server-owned configuration so separate addons can share one visual language.</p><div class="callout"><strong>Dependency direction:</strong> application addon → BUI. BUI contains no DarkRP references and remains usable under Sandbox or another gamemode.</div><div class="grid"><div class="card"><h3>Theme-driven</h3><p>Components resolve colours and geometry while painting, so open interfaces reflect theme changes.</p></div><div class="card"><h3>Responsive</h3><p>Geometric scale, axis helpers and clamped window sizes handle 720p through 4K and ultrawide.</p></div><div class="card"><h3>Event-driven</h3><p>Fonts, scale, config and animations update through hooks instead of permanent panel polling.</p></div></div></section>
 
-    <main class="main">
-        <section class="hero section" id="overview">
-            <div class="eyebrow">Framework Wiki</div>
-            <h1>Benjis.UI Framework</h1>
-            <p>This wiki documents the current Benjis.UI clientside framework, including the theme system, windowing, panels, buttons, fonts, labels, tabs, model panels, scroll panels, list helpers, and text entry controls. It is written against the new framework files, not the older version of the wiki.</p>
-            <div class="grid">
-                <div class="card">
-                    <h3>What this framework provides</h3>
-                    <p>A small themed VGUI layer built around factory functions such as <code>CreateFrame</code>, <code>CreatePanel</code>, <code>CreateButton</code>, <code>CreateScroll</code>, <code>CreateTabs</code>, <code>CreateTextEntry</code>, <code>CreateModelPanel</code>, and list/tile helpers. The framework centralises colours, font presets, animation timing, and common panel styles.</p>
-                </div>
-                <div class="card">
-                    <h3>Design goals visible in the code</h3>
-                    <p>The new version heavily reduces repeated per-frame work by caching fonts, using local theme aliases, precomputing paint handlers, and avoiding avoidable allocations inside <code>Paint</code> and <code>Think</code> callbacks. That matters when you open lots of panels at once, such as F4 pages, inventories, admin tools, or shop interfaces.</p>
-                </div>
-            </div>
-            <div class="callout warn">
-                <strong>Important:</strong> this is a clientside UI framework. It improves presentation and interaction, but it does not replace server-side validation. Any DarkRP purchase, command, weapon spawn, shipment action, rank action, or administrative action triggered from these controls must still be validated on the server.
-            </div>
-        </section>
+<section id="installation"><h2>Installation</h2><p>Place <code>benjis_ui</code> in <code>garrysmod/addons/</code>. The autorun loader sends client files with <code>AddCSLuaFile</code>, loads shared modules in both realms, and loads realm-specific modules only where valid. Restart the server after first installation.</p><pre><code>garrysmod/
+└── addons/
+    ├── benjis_ui/
+    │   ├── lua/autorun/bui_init.lua
+    │   ├── lua/bui/...
+    │   └── documentation/index.html
+    └── your_addon/
+        └── lua/autorun/your_addon.lua</code></pre><p>Dependents should wait for <code>BUILoaded</code> if their autorun file can execute before BUI. The global <code>BUI.Version</code> is the fast path when BUI is already initialized.</p><pre><code>local function initialize()
+    if not BUI or not BUI.Version then return end
+    hook.Remove("BUILoaded", "Example.Load")
+    -- Register the addon's components and screens here.
+end
 
-        <section class="section" id="include-order">
-            <h2>Suggested File Load Order</h2>
-            <p>Several modules depend on shared state created by earlier files, especially the theme and font systems. A safe include order for a typical clientside loader is shown below.</p>
-<pre><code>-- lua/autorun/client/cl_benjis_ui_loader.lua
+initialize()
+hook.Add("BUILoaded", "Example.Load", initialize)</code></pre></section>
 
-Benjis = Benjis or {}
-Benjis.UI = Benjis.UI or {}
+<section id="structure"><h2>Addon structure and realms</h2><table><thead><tr><th>Directory</th><th>Realm</th><th>Responsibility</th></tr></thead><tbody><tr><td><code>core/</code></td><td>shared/client</td><td>Namespace, validation, scaling, fonts, cached materials, drawing and animation.</td></tr><tr><td><code>themes/</code></td><td>shared</td><td>Theme registration and semantic colour lookup.</td></tr><tr><td><code>components/</code></td><td>client</td><td>Reusable VGUI controls and overlays.</td></tr><tr><td><code>layouts/</code></td><td>client</td><td>Stack, grid, padding, centering and spacer helpers.</td></tr><tr><td><code>presets/</code></td><td>client</td><td>Reusable internal frame composition.</td></tr><tr><td><code>positions/</code></td><td>client</td><td>Reusable screen placement and opening/closing presentations.</td></tr><tr><td><code>config/</code></td><td>server/client</td><td>Persistence, validation, synchronization and the superadmin screen.</td></tr><tr><td><code>demo/</code></td><td>client</td><td>Live component gallery.</td></tr></tbody></table><p>Create panels only on the client. Theme definitions, configuration schemas and settings category registration are shared. The server is authoritative for persisted configuration.</p></section>
 
-include("benjis_ui/cl_theme.lua")
-include("benjis_ui/cl_fonts.lua")
-include("benjis_ui/cl_panel.lua")
-include("benjis_ui/cl_window.lua")
-include("benjis_ui/cl_button.lua")
-include("benjis_ui/cl_scroll.lua")
-include("benjis_ui/cl_list.lua")
-include("benjis_ui/cl_model.lua")
-include("benjis_ui/cl_tabs.lua")
-include("benjis_ui/cl_textentry.lua")</code></pre>
-            <div class="callout">
-                <strong>Why this order?</strong> <code>cl_theme.lua</code> defines the palette and layout constants. <code>cl_fonts.lua</code> sets up font APIs and label creation. <code>cl_panel.lua</code> depends on the theme existing. <code>cl_window.lua</code>, <code>cl_button.lua</code>, <code>cl_list.lua</code>, and the other modules all build on those shared APIs.</div>
-        </section>
-
-        <section class="section" id="quick-start">
-            <h2>Quick Start</h2>
-            <p>The example below creates a centered window with a card container, a header label, a search field, tabs, and a button row. It demonstrates how the framework is intended to be composed.</p>
-<pre><code>local frame = Benjis.UI:CreateFrame("Example Menu", 960, 640, "center")
-
-local root = Benjis.UI:CreatePanel(frame.Content, "bg")
-root:Dock(FILL)
-root:DockMargin(Benjis.UI.Padding, Benjis.UI.Padding, Benjis.UI.Padding, Benjis.UI.Padding)
-
-local headerCard = Benjis.UI:CreatePanel(root, "card")
-headerCard:Dock(TOP)
-headerCard:SetTall(88)
-headerCard:DockMargin(0, 0, 0, 12)
-
-local title = Benjis.UI:CreateLabel(headerCard, "Framework Demo", "Header")
-title:Dock(TOP)
-title:DockMargin(12, 12, 12, 4)
-
-local subtitle = Benjis.UI:CreateLabel(
-    headerCard,
-    "This page shows how multiple Benjis.UI controls fit together.",
-    "Text"
-)
-subtitle:Dock(TOP)
-subtitle:DockMargin(12, 0, 12, 12)
-
-local search = Benjis.UI:CreateSearchEntry(root, {
-    placeholder = "Search items, players, or categories...",
-    tall = 38
-})
-search:Dock(TOP)
-search:DockMargin(0, 0, 0, 12)
-
-local tabs = Benjis.UI:CreateTabs(root, {
-    tabHeight = 36,
-    tabSpacing = 8,
-    contentStyle = "transparent"
-})
-tabs:Dock(FILL)
-
-tabs:AddTab("dashboard", "Dashboard", function(page)
-    local panel = Benjis.UI:CreatePanel(page, "card")
-    panel:Dock(FILL)
-
-    local label = Benjis.UI:CreateLabel(page, "Dashboard content goes here.", "Text")
-    label:Dock(TOP)
-    label:DockMargin(12, 12, 12, 0)
-end)
-
-tabs:AddTab("settings", "Settings", function(page)
-    local save = Benjis.UI:CreateButton(page, "Save Settings")
-    save:Dock(TOP)
-    save:DockMargin(0, 12, 0, 0)
-    save.DoClick = function()
-        chat.AddText(Color(0, 200, 0), "Saved settings")
-    end
-end)</code></pre>
-        </section>
-
-        <section class="section" id="theme">
-            <h2>Theme System</h2>
-            <p>The theme file defines the shared palette and the two main global layout constants used throughout the framework: <code>Benjis.UI.AnimTime</code> and <code>Benjis.UI.Padding</code>.</p>
-<pre><code>Benjis.UI.Theme = {
-    BG      = Color(18, 18, 18, 235),
-    Panel   = Color(25, 25, 25, 150),
-    Hover   = Color(35, 35, 35, 220),
-    Accent  = Color(200, 60, 60),
-    Divider = Color(0, 0, 0, 180),
-    Text    = color_white,
-    Muted   = Color(160, 160, 160),
-    _CardOutline = Color(0, 0, 0, 120),
-}
-
-Benjis.UI.AnimTime = 0.25
-Benjis.UI.Padding  = 12</code></pre>
-            <h3>Theme fields</h3>
-            <table>
-                <thead>
-                    <tr><th>Key</th><th>Purpose</th><th>Used by</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td><code>BG</code></td><td>Main background colour for windows and some text entries.</td><td>Frames, panel style <code>bg</code>, text entries.</td></tr>
-                    <tr><td><code>Panel</code></td><td>Default panel/body surface.</td><td>Buttons, content panels, rows, tabs, item tiles.</td></tr>
-                    <tr><td><code>Hover</code></td><td>Hover/active surface colour.</td><td>Buttons, tabs, text entry states, tile hovers.</td></tr>
-                    <tr><td><code>Accent</code></td><td>Highlight colour.</td><td>Scroll grip, tab underline, cursor/highlight states.</td></tr>
-                    <tr><td><code>Divider</code></td><td>Outline or separator colour.</td><td>Text entry border.</td></tr>
-                    <tr><td><code>Text</code></td><td>Primary foreground text colour.</td><td>Labels, buttons, tabs, rows, tiles.</td></tr>
-                    <tr><td><code>Muted</code></td><td>Secondary foreground text colour.</td><td>Close button, placeholder text, tile amount text.</td></tr>
-                    <tr><td><code>_CardOutline</code></td><td>Internal helper colour for the card outline.</td><td><code>CreatePanel(..., "card")</code>.</td></tr>
-                </tbody>
-            </table>
-            <h3>Best practice for theme overrides</h3>
-            <p>Do not mutate the existing colour tables in place if you want to override the theme. Replace entries with new <code>Color(...)</code> values instead. This matches the framework’s own guidance and prevents hard-to-track issues caused by shared colour references.</p>
-<pre><code>-- Good
-Benjis.UI.Theme.Accent = Color(52, 152, 219)
-Benjis.UI.Theme.Panel  = Color(22, 22, 26, 190)
-
--- Avoid in-place mutation patterns like this
--- Benjis.UI.Theme.Accent.r = 52</code></pre>
-            <h3>Theme override example for a police terminal</h3>
-<pre><code>local oldAccent = Benjis.UI.Theme.Accent
-local oldHover  = Benjis.UI.Theme.Hover
-
-Benjis.UI.Theme.Accent = Color(40, 120, 255)
-Benjis.UI.Theme.Hover  = Color(32, 42, 72, 220)
-
-local frame = Benjis.UI:CreateFrame("Police MDT", 1100, 700, "sidebar_right")
-
--- restore later if you only want temporary styling
-Benjis.UI.Theme.Accent = oldAccent
-Benjis.UI.Theme.Hover  = oldHover</code></pre>
-        </section>
-
-        <section class="section" id="fonts">
-            <h2>Fonts and Labels</h2>
-            <p>The font module handles font creation, caching, preset registration, preset lookup, and the <code>CreateLabel</code> helper. Fonts are resolution-scaled using a cached factor derived from <code>ScrH()</code>, clamped between <code>0.85</code> and <code>1.25</code>. When the screen size changes, the cache is reset and rebuilt on demand.</p>
-            <h3>Available APIs</h3>
-            <table>
-                <thead>
-                    <tr><th>Function</th><th>Purpose</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td><code>Benjis.UI:GetFont(name, size, opts)</code></td><td>Creates or returns a cached surface font ID.</td></tr>
-                    <tr><td><code>Benjis.UI:RegisterFontPreset(id, data)</code></td><td>Registers a preset name for reuse.</td></tr>
-                    <tr><td><code>Benjis.UI:GetFontPreset(id)</code></td><td>Returns the font ID for a preset, with fallback behaviour if the preset is missing.</td></tr>
-                    <tr><td><code>Benjis.UI:CreateLabel(parent, text, preset)</code></td><td>Creates a wrapped <code>DLabel</code> using a preset and the theme text colour.</td></tr>
-                </tbody>
-            </table>
-            <h3>Built-in font presets</h3>
-<pre><code>Title  = { font = "Roboto",      size = 20, options = { weight = 800 } }
-Header = { font = "Roboto",      size = 18, options = { weight = 700 } }
-Text   = { font = "Roboto",      size = 16, options = { weight = 500 } }
-Small  = { font = "Roboto",      size = 13, options = { weight = 500 } }
-Button = { font = "Roboto",      size = 16, options = { weight = 600 } }
-Mono   = { font = "Courier New", size = 14, options = { weight = 500 } }</code></pre>
-            <h3>Manual font creation</h3>
-<pre><code>local fontID = Benjis.UI:GetFont("Tahoma", 18, {
-    weight = 700,
-    outline = false,
-    antialias = true
+<section id="first-menu"><h2>Your first menu</h2><pre><code>local frame = BUI.CreateFrame({
+    title = "Inventory",
+    width = 980,
+    height = 680,
+    preset = "sidebar"
 })
 
-hook.Add("HUDPaint", "ExampleFontUsage", function()
-    draw.SimpleText("Benjis.UI custom font", fontID, 40, 40, color_white)
-end)</code></pre>
-            <h3>Registering a new preset</h3>
-<pre><code>Benjis.UI:RegisterFontPreset("JobCardTitle", {
-    font = "Roboto",
-    size = 22,
-    options = {
-        weight = 900,
-        antialias = true
+BUI.SetPadding(frame.Sidebar, 12)
+
+local navigation = BUI.Create("BUI.VerticalTabs", frame.Sidebar, {
+    vertical = true,
+    tabs = {
+        {id = "items", label = "Items", icon = "cart"},
+        {id = "settings", label = "Settings", icon = "settings"}
+    }
+})
+navigation:Dock(FILL)
+
+local card = BUI.Create("BUI.Card", frame.Main, {title = "Available items"})
+card:Dock(FILL)</code></pre><p><code>BUI.Create</code> creates a registered component and passes its options to <code>Configure</code>. Specialized application panels may still use ordinary VGUI; use BUI for shared primitives and tokens.</p></section>
+
+<section id="themes"><h2>Themes and colours</h2><p>The bundled <code>dark</code> theme is default; <code>light</code> is also complete. A theme is one object containing semantic colours. Components never need a separate light implementation.</p><div class="swatches"><div class="swatch">background</div><div class="swatch">surface / surfaceAlt</div><div class="swatch">elevated</div><div class="swatch">border</div><div class="swatch">text / textMuted</div><div class="swatch">accent states</div><div class="swatch">positive</div><div class="swatch">warning</div><div class="swatch">destructive</div><div class="swatch">overlay / shadow</div></div><pre><code>BUI.RegisterTheme("ocean", {
+    name = "Ocean",
+    colors = {
+        background = Color(7, 14, 20),
+        surface = Color(13, 27, 37),
+        surfaceAlt = Color(18, 36, 48),
+        elevated = Color(23, 43, 56),
+        border = Color(43, 68, 82),
+        text = Color(238, 247, 250),
+        textMuted = Color(146, 171, 181),
+        textDisabled = Color(91, 112, 121),
+        accent = Color(38, 178, 211),
+        accentHover = Color(58, 195, 225),
+        accentActive = Color(27, 148, 180),
+        positive = Color(60, 190, 126),
+        warning = Color(238, 176, 63),
+        destructive = Color(230, 77, 87),
+        overlay = Color(0, 0, 0, 180),
+        shadow = Color(0, 0, 0, 140)
     }
 })
 
-local lbl = Benjis.UI:CreateLabel(parent, "Civil Protection", "JobCardTitle")</code></pre>
-            <h3>Using labels correctly</h3>
-            <p><code>CreateLabel</code> creates a wrapped label, enables vertical auto-stretch, sets its alignment to left/vertical-center, and disables mouse input. It is suited for descriptions, body text, and titles where you want standardised typography with minimal setup.</p>
-<pre><code>local desc = Benjis.UI:CreateLabel(panel,
-    "This shipment can only be bought by Gun Dealers and requires a valid license.",
-    "Text"
+BUI.SetTheme("ocean")
+local accent = BUI.GetColor("accent")</code></pre><p>When <code>SetTheme</code> is used, configurable base overrides are updated from the chosen theme and <code>BUIThemeChanged</code> is emitted.</p></section>
+
+<section id="fonts"><h2>Semantic fonts</h2><p>Use roles, not font names. BUI ships Display, Title, Heading, Subheading, Body, BodyBold, Small, Caption, Button, HUD, HUDSmall and Numeric. Fonts regenerate after screen size, scale or typography configuration changes.</p><pre><code>draw.SimpleText(
+    "Quartermaster",
+    BUI.GetFont("Heading"),
+    x, y,
+    BUI.GetColor("text")
 )
-desc:Dock(TOP)
-desc:DockMargin(12, 0, 12, 12)</code></pre>
-            <div class="callout">
-                <strong>Missing preset behaviour:</strong> <code>GetFontPreset</code> does not hard-crash when a preset does not exist. It logs through <code>ErrorNoHalt</code> and falls back to the <code>Text</code> preset if available, or <code>Default</code> as a final fallback.</div>
-        </section>
 
-        <section class="section" id="frames">
-            <h2>Frames and Windows</h2>
-            <p><code>CreateFrame(title, w, h, style)</code> creates an animated <code>DFrame</code> with a custom header, close button, blur-backed paint, and a themed <code>frame.Content</code> panel for your body layout.</p>
-            <h3>Supported styles</h3>
-            <table>
-                <thead>
-                    <tr><th>Style</th><th>Open animation</th><th>Close animation</th><th>Typical use</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td><code>sidebar</code></td><td>Slides in from the left edge.</td><td>Slides back out to the left.</td><td>F4 menus, side inventories, admin drawers.</td></tr>
-                    <tr><td><code>sidebar_right</code></td><td>Slides in from the right edge.</td><td>Slides back out to the right.</td><td>Context panels, secondary inspectors, side tools.</td></tr>
-                    <tr><td><code>center</code></td><td>Starts lower and transparent, then moves upward while fading in.</td><td>Moves downward slightly while fading out.</td><td>Confirm dialogs, settings windows, modal pages.</td></tr>
-                </tbody>
-            </table>
-            <h3>Minimal example</h3>
-<pre><code>local frame = Benjis.UI:CreateFrame("F4 Menu", 1100, 700, "sidebar")
+BUI.RegisterFontRole("Price", {
+    size = 20,
+    weight = 700
+})</code></pre><p>The configured family defaults to Roboto. Garry's Mod/OS font fallback applies if an administrator enters an unavailable family.</p></section>
 
-local content = frame.Content
-local body = Benjis.UI:CreatePanel(content, "transparent")
-body:Dock(FILL)
-body:DockMargin(Benjis.UI.Padding, Benjis.UI.Padding, Benjis.UI.Padding, Benjis.UI.Padding)</code></pre>
-            <h3>Closing a frame safely</h3>
-<pre><code>local frame = Benjis.UI:CreateFrame("Example", 700, 500, "center")
+<section id="scaling"><h2>Responsive scaling</h2><table><thead><tr><th>Function</th><th>Use</th></tr></thead><tbody><tr><td><code>BUI.Scale(n)</code></td><td>General controls, icons, spacing and text-adjacent geometry.</td></tr><tr><td><code>BUI.ScaleW(n)</code></td><td>Width-sensitive application geometry.</td></tr><tr><td><code>BUI.ScaleH(n)</code></td><td>Height-sensitive application geometry.</td></tr><tr><td><code>BUI.ClampScale(n,min,max)</code></td><td>Scale with hard usability bounds.</td></tr><tr><td><code>BUI.ScreenCategory()</code></td><td><code>compact</code>, <code>standard</code>, <code>large</code> or <code>ultrawide</code>.</td></tr><tr><td><code>BUI.ResponsiveSize(...)</code></td><td>Clamped frame size respecting screen margins.</td></tr></tbody></table><pre><code>local iconSize = BUI.Scale(18)
+local sidebarWidth = BUI.ScaleW(224)
 
-local btn = Benjis.UI:CreateButton(frame.Content, "Close")
-btn:Dock(TOP)
-btn:DockMargin(12, 12, 12, 0)
-btn.DoClick = function()
-    if frame.CloseAnimated then
-        frame:CloseAnimated()
-    else
-        frame:Remove()
-    end
-end</code></pre>
-            <h3>Header and content structure</h3>
-            <p>The frame internally creates a 56px tall header with the title on the left and a custom close button on the right. Everything below that header is exposed as <code>frame.Content</code>, which is itself a themed <code>DPanel</code>. In practice, you should treat <code>frame.Content</code> as your main container and build all layout inside it.</p>
-            <h3>Frame used as a DarkRP command menu</h3>
-<pre><code>concommand.Add("open_job_terminal", function()
-    if IsValid(BenjisJobTerminal) then
-        BenjisJobTerminal:Remove()
-    end
-
-    local frame = Benjis.UI:CreateFrame("Job Terminal", 980, 640, "sidebar_right")
-    BenjisJobTerminal = frame
-
-    local left = Benjis.UI:CreatePanel(frame.Content, "panel")
-    left:Dock(LEFT)
-    left:SetWide(260)
-    left:DockMargin(12, 12, 12, 12)
-
-    local right = Benjis.UI:CreatePanel(frame.Content, "card")
-    right:Dock(FILL)
-    right:DockMargin(0, 12, 12, 12)
-end)</code></pre>
-        </section>
-
-        <section class="section" id="panels">
-            <h2>Panels</h2>
-            <p><code>CreatePanel(parent, paintStyle)</code> returns a themed <code>DPanel</code> with a pre-selected paint function. The style is resolved once when the panel is created rather than on every frame.</p>
-            <h3>Supported paint styles</h3>
-            <table>
-                <thead>
-                    <tr><th>Style</th><th>Effect</th><th>When to use it</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td><code>panel</code></td><td>Draws a flat box with <code>Theme.Panel</code>.</td><td>Default content containers and standard group boxes.</td></tr>
-                    <tr><td><code>bg</code></td><td>Draws a flat box with <code>Theme.BG</code>.</td><td>Deeper backgrounds and inner window roots.</td></tr>
-                    <tr><td><code>transparent</code></td><td>Does not draw anything.</td><td>Pure layout containers, docking wrappers, spacing shells.</td></tr>
-                    <tr><td><code>card</code></td><td>Draws a rounded card with outline.</td><td>Feature blocks, setting groups, stats cards, inventory sections.</td></tr>
-                </tbody>
-            </table>
-            <h3>Examples</h3>
-<pre><code>local root = Benjis.UI:CreatePanel(frame.Content, "transparent")
-root:Dock(FILL)
-
-local sidebar = Benjis.UI:CreatePanel(root, "panel")
-sidebar:Dock(LEFT)
-sidebar:SetWide(240)
-
-local content = Benjis.UI:CreatePanel(root, "bg")
-content:Dock(FILL)
-content:DockMargin(12, 0, 0, 0)
-
-local card = Benjis.UI:CreatePanel(content, "card")
-card:Dock(TOP)
-card:SetTall(120)
-card:DockMargin(12, 12, 12, 0)</code></pre>
-            <h3>Unknown styles</h3>
-            <p>If you pass an unknown style name, the framework falls back to the default <code>panel</code> painter. That gives safe behaviour instead of a broken panel.</p>
-        </section>
-
-        <section class="section" id="buttons">
-            <h2>Buttons and Confirm Dialogs</h2>
-            <p><code>CreateButton(parent, text, tall)</code> creates a themed <code>DButton</code> with a hover animation. The button stores the visible label in <code>btn.Label</code>, and also exposes <code>btn:SetLabel(txt)</code> so you can update the display text later.</p>
-            <h3>Basic button</h3>
-<pre><code>local btn = Benjis.UI:CreateButton(parent, "Save Settings")
-btn:Dock(TOP)
-btn:DockMargin(0, 0, 0, 8)
-
-btn.DoClick = function()
-    chat.AddText(Color(0, 255, 0), "Settings saved")
-end</code></pre>
-            <h3>Changing label text dynamically</h3>
-<pre><code>local ready = false
-local btn = Benjis.UI:CreateButton(parent, "Start")
-btn:Dock(TOP)
-
-btn.DoClick = function(self)
-    ready = not ready
-    self:SetLabel(ready and "Stop" or "Start")
-end</code></pre>
-            <h3>Button list example</h3>
-<pre><code>for i = 1, 5 do
-    local btn = Benjis.UI:CreateButton(parent, "Option " .. i)
-    btn:Dock(TOP)
-    btn:DockMargin(0, 0, 0, 6)
-    btn.DoClick = function()
-        print("Clicked option", i)
-    end
-end</code></pre>
-            <h3>How hover rendering works</h3>
-            <p>The button smoothly lerps an internal hover value toward <code>1</code> while hovered and back toward <code>0</code> otherwise. That value is then passed into <code>Benjis.UI:LerpColor</code> to blend between <code>Theme.Panel</code> and <code>Theme.Hover</code>.</p>
-            <h3><code>LerpColor</code> caveat</h3>
-            <div class="callout warn">
-                <strong>Do not store the return value of <code>Benjis.UI:LerpColor</code>.</strong> The framework uses one shared mutable colour buffer for performance. Consume the result immediately in a draw call. Storing it for later will produce incorrect colours because the next <code>LerpColor</code> call overwrites that same buffer.</div>
-<pre><code>-- Correct
-local function PaintButton(self, w, h)
-    draw.RoundedBox(0, 0, 0, w, h,
-        Benjis.UI:LerpColor(self.Hover, Benjis.UI.Theme.Panel, Benjis.UI.Theme.Hover)
-    )
+if BUI.ScreenCategory() == "compact" then
+    detailsPanel:SetVisible(false)
 end
 
--- Wrong
-local col = Benjis.UI:LerpColor(0.5, color_white, color_black)
--- storing this and reusing it later is unsafe</code></pre>
-            <h3>Confirm dialog</h3>
-            <p><code>Benjis.UI:Confirm(title, text, yesText, noText, yesFunc, noFunc)</code> is the framework’s styled replacement for <code>Derma_Query</code>. It creates a centered animated frame, a message label, and two side-by-side buttons.</p>
-<pre><code>Benjis.UI:Confirm(
-    "Delete Shipment",
-    "Are you sure you want to delete this shipment preset?",
-    "Delete",
-    "Cancel",
-    function()
-        print("Confirmed delete")
-    end,
-    function()
-        print("Cancelled")
+local width, height = BUI.ResponsiveSize(1100, 720, 1500, 960)</code></pre><p>The scale uses a 1920×1080 reference with clamped geometric scaling and an admin-controlled multiplier. This avoids both blind 4K enlargement and tiny 720p controls.</p></section>
+
+<section id="icons"><h2>Icons</h2><p>HUD and navigation icons use BUI's bundled, server-downloaded icon set. Remaining utility icons fall back to Garry's Mod materials. Registered materials are cached and can still be extended by dependent addons.</p><pre><code>BUI.RegisterIcon("inventory", "icon16/box.png")
+
+local material = BUI.GetIcon("inventory")
+BUI.DrawIcon("inventory", x, y, BUI.Scale(16), BUI.GetColor("text"))
+
+local button = BUI.Create("BUI.Button", parent, {
+    text = "Inventory",
+    icon = "inventory"
+})</code></pre><p>Bundled IDs include close, check, info, warning, error, search, settings, user, users, home, money, heart, shield, briefcase, refresh, external, menu, star, lock, unlock, food, cart, gun, car, laws, terminal, arrow and chevron.</p></section>
+
+<section id="animations"><h2>Animations</h2><p>A single temporary Think hook services active animations and removes itself when the queue empties. Disabling animations applies target values immediately.</p><pre><code>BUI.Animate(panel, "width", panel:GetWide(), BUI.Scale(320), 0.18,
+    function(value)
+        if IsValid(panel) then panel:SetWide(value) end
     end
-)</code></pre>
-            <h3>Using Confirm before a DarkRP action</h3>
-<pre><code>deleteButton.DoClick = function()
-    Benjis.UI:Confirm(
-        "Clear Warrants",
-        "This will request a warrant reset for all players. Continue?",
-        "Proceed",
-        "Abort",
-        function()
-            net.Start("BenjisPolice_RequestWarrantReset")
+)
+
+BUI.FadeIn(panel, 0.16)
+BUI.FadeOut(panel, 0.14, true)</code></pre><p>Available easing names are <code>linear</code>, <code>out</code> and <code>inout</code>. Duration is adjusted by the configured animation speed.</p></section>
+
+<section id="components"><h2>Component catalogue</h2><p>Every component is created with <code>BUI.Create(class, parent, options)</code>. Most options return the configured panel, accept normal VGUI docking afterward, and expose standard VGUI events in addition to the callbacks listed here.</p>
+<table><thead><tr><th>Class</th><th>Purpose and important options</th><th>Common methods/events</th></tr></thead><tbody>
+<tr><td><code>BUI.Panel</code></td><td>Themed surface. <span class="pill">surface</span> <span class="pill">transparent</span> <span class="pill">border</span> <span class="pill">padding</span></td><td>Normal <code>DPanel</code> API.</td></tr>
+<tr><td><code>BUI.Card</code></td><td>Elevated content group. <span class="pill">title</span></td><td><code>Title</code>, normal child parenting.</td></tr>
+<tr><td><code>BUI.Frame</code>, <code>BUI.Window</code></td><td>Responsive application window. <span class="pill">title</span> <span class="pill">width</span> <span class="pill">height</span> <span class="pill">preset</span></td><td><code>GetContent</code>, <code>CloseAnimated</code>, Enter submit, Escape close.</td></tr>
+<tr><td><code>BUI.ScrollPanel</code></td><td>Themed vertical scroll container.</td><td><code>GetCanvas</code>, <code>Clear</code>, standard <code>DScrollPanel</code>.</td></tr>
+<tr><td><code>BUI.Button</code></td><td>Primary action. <span class="pill">text</span> <span class="pill">icon</span> <span class="pill">variant</span> <span class="pill">disabled</span></td><td><code>onClick(panel)</code>, <code>SetEnabled</code>.</td></tr>
+<tr><td><code>BUI.IconButton</code>, <code>BUI.TextButton</code></td><td>Button variants sharing the button API.</td><td>Same as <code>BUI.Button</code>.</td></tr>
+<tr><td><code>BUI.Label</code>, <code>BUI.RichLabel</code></td><td>Semantic text. <span class="pill">text</span> <span class="pill">role</span> <span class="pill">muted</span> <span class="pill">wrap</span></td><td><code>SetText</code>, <code>SetWrap</code>.</td></tr>
+<tr><td><code>BUI.TextEntry</code>, <code>BUI.NumberEntry</code></td><td>Text/numeric input. <span class="pill">placeholder</span> <span class="pill">value</span> <span class="pill">numeric</span> <span class="pill">multiline</span></td><td><code>onChange(value,panel)</code>, <code>onSubmit(value,panel)</code>.</td></tr>
+<tr><td><code>BUI.Field</code></td><td>Accessible form row pairing a permanent label and optional description with an input control. <span class="pill">label</span> <span class="pill">description</span> <span class="pill">component</span> <span class="pill">control</span></td><td><code>GetControl()</code>; normally use <code>BUI.CreateField</code>.</td></tr>
+<tr><td><code>BUI.SearchBox</code></td><td>Client-side search input with icon.</td><td><code>onChange</code>, <code>onSubmit</code>.</td></tr>
+<tr><td><code>BUI.Checkbox</code>, <code>BUI.Toggle</code></td><td>Boolean input with label. <span class="pill">value</span> <span class="pill">text</span></td><td><code>SetValue</code>, <code>GetValue</code>, <code>onChange</code>.</td></tr>
+<tr><td><code>BUI.Slider</code></td><td>Lightweight numeric range. <span class="pill">min</span> <span class="pill">max</span> <span class="pill">value</span> <span class="pill">decimals</span></td><td><code>SetValue</code>, <code>GetValue</code>, <code>onChange</code>.</td></tr>
+<tr><td><code>BUI.ComboBox</code></td><td>Dropdown of <code>{label,value,selected}</code> objects or strings.</td><td><code>AddChoice</code>, <code>onChange(value,panel,index)</code>.</td></tr>
+<tr><td><code>BUI.Tabs</code>, <code>BUI.HorizontalTabs</code>, <code>BUI.VerticalTabs</code></td><td>Selectable navigation. <span class="pill">tabs</span> <span class="pill">vertical</span> <span class="pill">active</span></td><td><code>AddTab</code>, <code>Select</code>, <code>onChange(id,tabs)</code>.</td></tr>
+<tr><td><code>BUI.Sidebar</code>, <code>BUI.Navbar</code></td><td>Semantic navigation aliases using the tabs API.</td><td>Same as tabs.</td></tr>
+<tr><td><code>BUI.List</code>, <code>BUI.ListItem</code></td><td>Stacked interactive items. List options: <span class="pill">items</span> <span class="pill">spacing</span>.</td><td><code>AddItem</code>, <code>SetItems</code>, <code>ClearItems</code>, item <code>SetSelected</code>.</td></tr>
+<tr><td><code>BUI.PlayerRow</code></td><td>Avatar, name and job for a player. <span class="pill">player</span></td><td><code>onClick(player,row)</code>.</td></tr>
+<tr><td><code>BUI.Table</code></td><td>Column/row data display. Columns accept <code>key</code>, <code>label</code>, <code>width</code>, <code>render</code>.</td><td><code>SetRows</code>, <code>onRowClick(row,index,table)</code>.</td></tr>
+<tr><td><code>BUI.Avatar</code></td><td>Player avatar wrapper. <span class="pill">player</span> <span class="pill">size</span></td><td>Normal panel sizing.</td></tr>
+<tr><td><code>BUI.Divider</code></td><td>Semantic one-pixel separator.</td><td>Dock and size normally.</td></tr>
+<tr><td><code>BUI.Badge</code>, <code>BUI.Tooltip</code></td><td>Compact state label. <span class="pill">text</span> <span class="pill">kind</span></td><td>Kinds: neutral, info, success, warning, error.</td></tr>
+<tr><td><code>BUI.ProgressBar</code></td><td>Animated 0–1 progress. <span class="pill">value</span> <span class="pill">color</span></td><td><code>SetValue(value,animate)</code>.</td></tr>
+<tr><td><code>BUI.Loading</code></td><td>Lightweight loading indicator. <span class="pill">text</span></td><td>Remove when work completes.</td></tr>
+<tr><td><code>BUI.EmptyState</code></td><td>Empty/error content placeholder. <span class="pill">icon</span> <span class="pill">title</span> <span class="pill">message</span></td><td>Normal panel API.</td></tr>
+<tr><td><code>BUI.IconTextRow</code></td><td>Icon plus text metadata row.</td><td><code>Configure</code>.</td></tr>
+<tr><td><code>BUI.Header</code>, <code>BUI.Footer</code></td><td>Semantic surface containers.</td><td>Panel API.</td></tr>
+<tr><td><code>BUI.Modal</code>, <code>BUI.ConfirmationModal</code></td><td>Focus-trapping overlay with action objects.</td><td><code>CloseAnimated</code>; use <code>OpenModal</code>/<code>Confirm</code>.</td></tr>
+<tr><td><code>BUI.Toast</code></td><td>Timed stacked notification with optional action.</td><td><code>Dismiss</code>; normally use <code>BUI.Notify</code>.</td></tr>
+<tr><td><code>BUI.ContextMenu</code></td><td>Context menu base; normally use <code>BUI.OpenContextMenu</code>.</td><td>Standard <code>DMenu</code>.</td></tr>
+</tbody></table>
+<h3>Inputs example</h3><pre><code>local form = BUI.CreateStack(parent, {direction = "vertical", gap = 10})
+
+local nameField, nameEntry = BUI.CreateField(form, {
+    label = "Character name",
+    description = "This name is visible to other roleplay players.",
+    component = "BUI.TextEntry",
+    control = {
+        placeholder = "Example: Morgan Price",
+        onSubmit = function(value)
+            submitCharacter(value)
+        end
+    }
+})
+form:Add(nameField)
+
+form:Add(BUI.Create("BUI.Toggle", form, {
+    text = "Receive announcements",
+    value = true,
+    onChange = function(enabled)
+        preferences.announcements = enabled
+    end
+}))</code></pre>
+<h3>List and table examples</h3><pre><code>local list = BUI.Create("BUI.List", parent, {
+    items = {
+        {text = "Overview", icon = "home"},
+        {text = "Members", icon = "users"}
+    }
+})
+
+local dataTable = BUI.Create("BUI.Table", parent, {
+    columns = {
+        {key = "name", label = "Name"},
+        {key = "status", label = "Status"}
+    },
+    rows = {
+        {name = "Generator", status = "Online"},
+        {name = "Relay", status = "Offline"}
+    },
+    onRowClick = function(row)
+        print(row.name)
+    end
+})</code></pre></section>
+
+<section id="frames"><h2>Frames and presets</h2><table><thead><tr><th>Preset ID</th><th>Generated regions</th><th>Notes</th></tr></thead><tbody><tr><td><code>centered</code></td><td><code>Content</code></td><td>Standard centered padded window.</td></tr><tr><td><code>sidebar</code></td><td><code>Sidebar</code>, <code>Main</code></td><td>Left navigation and application content.</td></tr><tr><td><code>right_sidebar</code></td><td><code>Sidebar</code>, <code>Main</code></td><td>Right-aligned navigation/inspector.</td></tr><tr><td><code>top_navigation</code></td><td><code>Navbar</code>, <code>Main</code></td><td>Horizontal application navigation.</td></tr><tr><td><code>dashboard</code></td><td><code>Sidebar</code>, <code>Main</code>, <code>Footer</code></td><td>Sidebar can be disabled with <code>sidebar=false</code>.</td></tr><tr><td><code>fullscreen</code></td><td><code>Content</code></td><td>Screen-sized, fixed application.</td></tr><tr><td><code>modal</code></td><td><code>Content</code></td><td>Small non-draggable focused frame.</td></tr><tr><td><code>split</code></td><td><code>Left</code>, <code>Right</code></td><td>Weighted proportional panes.</td></tr></tbody></table><pre><code>local frame = BUI.CreateFrame({
+    title = "Inspector",
+    width = 1000,
+    height = 650,
+    preset = "split",
+    leftWeight = 2,
+    rightWeight = 1,
+    closeOnEscape = true,
+    position = "sidebar",
+    side = "left",
+    fullHeight = true,
+    onSubmit = function(activeFrame)
+        save(activeFrame)
+    end
+})</code></pre><h3>Frame positions</h3><p>A preset builds regions inside a frame; a position controls where the finished frame lives and how it enters or exits. They are intentionally composable. Built-in positions are <code>center</code>, <code>sidebar</code>, <code>sidebar_left</code>, <code>sidebar_right</code>, <code>top_left</code>, <code>top_right</code>, <code>bottom_left</code>, <code>bottom_right</code> and <code>fullscreen</code>. The generic sidebar position accepts <code>side="left"|"right"</code>, <code>fullHeight</code>, <code>edgeMargin</code> and <code>positionDuration</code>.</p><pre><code>local drawer = BUI.CreateFrame({
+    title = "Inventory",
+    width = 920,
+    preset = "dashboard",
+    position = "sidebar",
+    side = "right",
+    fullHeight = true
+})</code></pre></section>
+
+<section id="layouts"><h2>Layout system</h2><h3>Stacks and weighted columns</h3><pre><code>local row = BUI.CreateStack(parent, {
+    direction = "horizontal",
+    gap = 12,
+    padding = 8
+})
+row:Dock(FILL)
+row:Add(leftPanel, 2)
+row:Add(centerPanel, 3)
+row:Add(rightPanel, 1)</code></pre><h3>Responsive grid and wrapping</h3><pre><code>local grid = BUI.CreateGrid(scrollPanel, {
+    minColumnWidth = 260,
+    rowHeight = 150,
+    gap = 12
+})
+grid:Dock(TOP)
+
+for _, record in ipairs(records) do
+    grid:Add(buildCard(record))
+end</code></pre><p><code>BUI.Grid</code>, <code>BUI.ResponsiveGrid</code> and <code>BUI.Wrap</code> share this responsive grid behavior. Use <code>BUI.SetPadding(panel,...)</code>, <code>BUI.Spacer(parent,size,horizontal)</code> and <code>BUI.Center(panel,w,h)</code> for small composition tasks. Layout occurs during VGUI invalidation, not a Think loop.</p></section>
+
+<section id="overlays"><h2>Notifications, confirmations and context</h2><pre><code>BUI.Notify({
+    type = "success",
+    title = "Purchase complete",
+    message = "The shipment was added to your inventory.",
+    duration = 5,
+    action = "Open",
+    callback = function(toast)
+        openInventory()
+    end
+})
+
+BUI.Confirm({
+    title = "Delete this preset?",
+    message = "This action cannot be undone.",
+    destructive = true,
+    confirmText = "Delete",
+    onConfirm = deletePreset
+})</code></pre><pre><code>BUI.AttachTooltip(button, "Refresh available jobs")
+
+BUI.OpenContextMenu({
+    {label = "Copy identifier", callback = copyIdentifier},
+    {divider = true},
+    {label = "Open profile", callback = openProfile}
+})</code></pre><p>Toasts support info, success, warning and error, stack in the configured screen corner, and remove themselves. Modals take an <code>actions</code> array of <code>{label,variant,callback,close}</code>.</p></section>
+
+<section id="world-surfaces"><h2>Interactive world surfaces</h2><p><code>BUI.CreateWorldSurface</code> creates a theme-aware 3D2D interaction surface attached to an entity. It performs ray-plane cursor projection, range and eye-trace checks, button hit testing, hover state, cleanup and <kbd>E</kbd>-key dispatch without creating a Think hook per entity.</p><pre><code>local screen = BUI.CreateWorldSurface(self, {
+    width = 600,
+    height = 600,
+    scale = 0.04,
+    maxDistance = 180,
+    getTransform = function(entity)
+        return entity:LocalToWorld(Vector(20, 0, 55)),
+            entity:LocalToWorldAngles(Angle(0, 90, 90))
+    end
+})
+
+screen:SetButtons({
+    {
+        x = 30, y = 480, w = 540, h = 70,
+        label = "COLLECT",
+        icon = "money",
+        enabled = function(entity) return entity:GetStoredMoney() &gt; 0 end,
+        onClick = function(entity)
+            net.Start("MyAddon.Collect")
+            net.WriteEntity(entity)
             net.SendToServer()
         end
-    )
-end</code></pre>
-            <div class="callout warn">
-                The UI confirmation is not a security layer. The net receiver must still validate that the sender has the correct permissions server-side.
-            </div>
-        </section>
-
-        <section class="section" id="scroll">
-            <h2>Scroll Panels</h2>
-            <p><code>CreateScroll(parent)</code> returns a styled <code>DScrollPanel</code> with a slim 6px scrollbar. The up and down buttons, plus the bar background, are intentionally not painted. Only the grip is drawn, using <code>Theme.Accent</code>.</p>
-            <h3>Simple scroll list</h3>
-<pre><code>local scroll = Benjis.UI:CreateScroll(parent)
-scroll:Dock(FILL)
-
-for i = 1, 25 do
-    local btn = Benjis.UI:CreateButton(scroll, "Entry " .. i)
-    btn:Dock(TOP)
-    btn:DockMargin(0, 0, 0, 8)
-end</code></pre>
-            <h3>Scrollable card stack</h3>
-<pre><code>local scroll = Benjis.UI:CreateScroll(parent)
-scroll:Dock(FILL)
-
-for i = 1, 8 do
-    local card = Benjis.UI:CreatePanel(scroll, "card")
-    card:Dock(TOP)
-    card:SetTall(100)
-    card:DockMargin(0, 0, 8, 12)
-
-    local lbl = Benjis.UI:CreateLabel(card, "Card #" .. i, "Header")
-    lbl:Dock(TOP)
-    lbl:DockMargin(12, 12, 12, 0)
-end</code></pre>
-        </section>
-
-        <section class="section" id="lists">
-            <h2>Lists and Item Tiles</h2>
-            <p>The list module provides four helpers: <code>CreateList</code>, <code>AddListRow</code>, <code>CreateGrid</code>, and <code>AddItemTile</code>. These cover common scrollable rows and grid-style item tiles.</p>
-            <h3><code>CreateList(parent)</code></h3>
-            <p>This is a convenience wrapper around <code>CreateScroll</code> that docks the scroll panel to fill its parent.</p>
-<pre><code>local list = Benjis.UI:CreateList(parent)</code></pre>
-            <h3><code>AddListRow(list, text, stripColor, iconPath)</code></h3>
-            <p>This adds a clickable row implemented as a <code>DButton</code>. It supports an optional coloured strip on the left and an optional icon image. The text offset automatically changes if an icon is supplied.</p>
-<pre><code>local list = Benjis.UI:CreateList(parent)
-
-for _, ply in ipairs(player.GetAll()) do
-    local row = Benjis.UI:AddListRow(
-        list,
-        ply:Nick(),
-        team.GetColor(ply:Team()),
-        "icon16/user.png"
-    )
-
-    row.DoClick = function()
-        print("Selected player:", ply:Nick())
-    end
-end</code></pre>
-            <h3>Player list without icons</h3>
-<pre><code>for _, ply in ipairs(player.GetAll()) do
-    local row = Benjis.UI:AddListRow(list, ply:Nick(), team.GetColor(ply:Team()))
-    row.DoClick = function()
-        chat.AddText(color_white, "Viewing ", Color(255, 200, 0), ply:Nick())
-    end
-end</code></pre>
-            <h3><code>CreateGrid(parent, spacing)</code></h3>
-            <p>This returns two values: a scroll panel and a <code>DIconLayout</code>. The scroll panel is docked to fill its parent, and the icon layout is created inside it. Use the layout object for adding tiles.</p>
-<pre><code>local scroll, grid = Benjis.UI:CreateGrid(parent, 12)
-scroll:Dock(FILL)</code></pre>
-            <h3><code>AddItemTile(grid, data)</code></h3>
-            <p>This creates a 110x140 button tile with a hover state, model preview, item name, and quantity string. The <code>data</code> table is expected to contain at least <code>name</code>, <code>amount</code>, and <code>model</code>.</p>
-<pre><code>local _, grid = Benjis.UI:CreateGrid(parent, 12)
-
-local tile = Benjis.UI:AddItemTile(grid, {
-    name = "Pistol Ammo",
-    amount = 3,
-    model = "models/items/boxsrounds.mdl"
+    }
 })
 
-tile.DoClick = function()
-    print("Clicked ammo tile")
-end</code></pre>
-            <h3>Updating a tile after creation</h3>
-            <p>The tile exposes <code>tile:SetName(str)</code> and <code>tile:SetAmount(n)</code>, which update the prebuilt display strings without rebuilding the panel.</p>
-<pre><code>local tile = Benjis.UI:AddItemTile(grid, {
-    name = "Lockpick",
-    amount = 1,
-    model = "models/weapons/w_crowbar.mdl"
-})
-
--- later
-tile:SetAmount(2)
-tile:SetName("Advanced Lockpick")</code></pre>
-            <h3>Inventory grid example</h3>
-<pre><code>local scroll, grid = Benjis.UI:CreateGrid(parent, 10)
-scroll:Dock(FILL)
-
-local items = {
-    { name = "Health Kit", amount = 2, model = "models/items/healthkit.mdl" },
-    { name = "Armor Battery", amount = 1, model = "models/items/battery.mdl" },
-    { name = "Lockpick", amount = 3, model = "models/weapons/w_crowbar.mdl" }
-}
-
-for _, item in ipairs(items) do
-    local tile = Benjis.UI:AddItemTile(grid, item)
-    tile.DoClick = function()
-        print("Use item:", item.name)
-    end
-end</code></pre>
-        </section>
-
-        <section class="section" id="models">
-            <h2>Model Panels</h2>
-            <p>The model module provides a static preview panel and an interactive preview panel.</p>
-            <h3><code>CreateModelPanel(parent, model)</code></h3>
-            <p>This creates a non-interactive <code>DModelPanel</code> with fixed camera settings, disabled idle rotation, and visibility-aware manual painting toggling. It is intended for cheap static previews in tiles, cards, and lists.</p>
-<pre><code>local mdl = Benjis.UI:CreateModelPanel(parent, "models/player/kleiner.mdl")
-mdl:SetSize(220, 320)
-mdl:Dock(LEFT)
-mdl:DockMargin(0, 0, 12, 0)</code></pre>
-            <h3><code>CreateInteractiveModelPanel(parent, model)</code></h3>
-            <p>This version allows drag-to-rotate and mousewheel zoom. It tracks the current yaw in <code>pnl.Angles</code> and the camera distance in <code>pnl.Zoom</code>.</p>
-<pre><code>local mdl = Benjis.UI:CreateInteractiveModelPanel(parent, LocalPlayer():GetModel())
-mdl:Dock(FILL)</code></pre>
-            <h3>Character preview example</h3>
-<pre><code>local card = Benjis.UI:CreatePanel(parent, "card")
-card:Dock(FILL)
-
-local mdl = Benjis.UI:CreateInteractiveModelPanel(card, LocalPlayer():GetModel())
-mdl:Dock(FILL)
-
-local apply = Benjis.UI:CreateButton(card, "Apply Outfit")
-apply:Dock(BOTTOM)
-apply:DockMargin(12, 12, 12, 12)</code></pre>
-            <h3>Static tile preview example</h3>
-<pre><code>local tile = Benjis.UI:AddItemTile(grid, {
-    name = "MP5",
-    amount = 1,
-    model = "models/weapons/w_smg1.mdl"
-})</code></pre>
-            <div class="callout good">
-                The static model panel disables idle animation and avoids needless rendering work when hidden. The interactive version only updates the camera when zoom changes and only updates the entity angle when the user is actively dragging and the mouse has actually moved.
-            </div>
-        </section>
-
-        <section class="section" id="tabs">
-            <h2>Tabs</h2>
-            <p><code>CreateTabs(parent, opts)</code> provides a lightweight tab/page switcher for interfaces such as F4 subpages, inventories, admin panels, chatboxes, and settings menus. It does not use <code>DPropertySheet</code>. Instead, it manages a button strip and one page panel per tab.</p>
-            <h3>Options</h3>
-            <table>
-                <thead>
-                    <tr><th>Option</th><th>Purpose</th><th>Default</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td><code>tabHeight</code></td><td>Height of the tab button strip.</td><td><code>34</code></td></tr>
-                    <tr><td><code>tabSpacing</code></td><td>Spacing between tab buttons.</td><td><code>6</code></td></tr>
-                    <tr><td><code>contentStyle</code></td><td>Paint style used for the content area panel.</td><td><code>"transparent"</code></td></tr>
-                    <tr><td><code>onTabChanged</code></td><td>Callback triggered after switching tabs.</td><td><code>nil</code></td></tr>
-                </tbody>
-            </table>
-            <h3>Main methods</h3>
-            <table>
-                <thead>
-                    <tr><th>Method</th><th>Purpose</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td><code>tabs:AddTab(id, title, buildFunc)</code></td><td>Creates a button and page for a new tab.</td></tr>
-                    <tr><td><code>tabs:SetTabLabel(id, title)</code></td><td>Changes the display text and button width.</td></tr>
-                    <tr><td><code>tabs:SetActiveTab(id)</code></td><td>Shows the target page and hides all others.</td></tr>
-                    <tr><td><code>tabs:GetActiveTab()</code></td><td>Returns the active tab ID.</td></tr>
-                    <tr><td><code>tabs:GetPage(id)</code></td><td>Returns the page panel for a tab ID.</td></tr>
-                </tbody>
-            </table>
-            <h3>Basic tabs example</h3>
-<pre><code>local tabs = Benjis.UI:CreateTabs(parent, {
-    tabHeight = 36,
-    tabSpacing = 8,
-    contentStyle = "transparent"
-})
-tabs:Dock(FILL)
-
-tabs:AddTab("jobs", "Jobs", function(page)
-    local lbl = Benjis.UI:CreateLabel(page, "Available jobs go here.", "Text")
-    lbl:Dock(TOP)
-end)
-
-tabs:AddTab("shipments", "Shipments", function(page)
-    local lbl = Benjis.UI:CreateLabel(page, "Shipment listing goes here.", "Text")
-    lbl:Dock(TOP)
-end)</code></pre>
-            <h3>Using <code>onTabChanged</code></h3>
-<pre><code>local tabs = Benjis.UI:CreateTabs(parent, {
-    onTabChanged = function(self, newID, oldID, page, button)
-        print("Changed tab from", oldID, "to", newID)
-    end
-})</code></pre>
-            <h3>Changing a tab title later</h3>
-<pre><code>tabs:SetTabLabel("jobs", "Jobs (12)")</code></pre>
-            <h3>DarkRP F4 style page layout example</h3>
-<pre><code>local frame = Benjis.UI:CreateFrame("City Menu", 1180, 720, "sidebar")
-
-local tabs = Benjis.UI:CreateTabs(frame.Content, {
-    tabHeight = 40,
-    tabSpacing = 10,
-    contentStyle = "transparent"
-})
-tabs:Dock(FILL)
-tabs:DockMargin(12, 12, 12, 12)
-
-tabs:AddTab("jobs", "Jobs", function(page)
-    local scroll = Benjis.UI:CreateScroll(page)
-    scroll:Dock(FILL)
-end)
-
-tabs:AddTab("entities", "Entities", function(page)
-    local scroll = Benjis.UI:CreateScroll(page)
-    scroll:Dock(FILL)
-end)
-
-tabs:AddTab("weapons", "Weapons", function(page)
-    local scroll = Benjis.UI:CreateScroll(page)
-    scroll:Dock(FILL)
-end)
-
-tabs:AddTab("settings", "Settings", function(page)
-    local entry = Benjis.UI:CreateTextEntry(page, { placeholder = "Search settings..." })
-    entry:Dock(TOP)
-end)</code></pre>
-        </section>
-
-        <section class="section" id="textentry">
-            <h2>Text Entries and Search Boxes</h2>
-            <p>The text entry module provides <code>CreateTextEntry(parent, opts)</code> and <code>CreateSearchEntry(parent, opts)</code>. These are themed wrappers around <code>DTextEntry</code> with hover/focus interpolation, placeholder rendering, custom colours, and state setters.</p>
-            <h3>Supported options</h3>
-            <table>
-                <thead>
-                    <tr><th>Option</th><th>Purpose</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td><code>tall</code></td><td>Control height. Default <code>36</code>.</td></tr>
-                    <tr><td><code>font</code></td><td>Explicit font ID to use.</td></tr>
-                    <tr><td><code>preset</code></td><td>Font preset name used if <code>font</code> is not supplied.</td></tr>
-                    <tr><td><code>textColor</code></td><td>Typed text colour.</td></tr>
-                    <tr><td><code>cursorColor</code></td><td>Cursor colour.</td></tr>
-                    <tr><td><code>highlightColor</code></td><td>Selection highlight colour.</td></tr>
-                    <tr><td><code>placeholder</code></td><td>Placeholder text shown while empty and unfocused.</td></tr>
-                    <tr><td><code>placeholderColor</code></td><td>Placeholder text colour.</td></tr>
-                    <tr><td><code>bgColor</code></td><td>Idle background colour.</td></tr>
-                    <tr><td><code>hoverColor</code></td><td>Hover background colour.</td></tr>
-                    <tr><td><code>activeColor</code></td><td>Focus background colour.</td></tr>
-                    <tr><td><code>outlineColor</code></td><td>Border colour.</td></tr>
-                    <tr><td><code>textInsetX</code>, <code>textInsetY</code></td><td>Text inset/padding.</td></tr>
-                    <tr><td><code>rounded</code></td><td>Rounded corner size. Defaults to <code>6</code>.</td></tr>
-                    <tr><td><code>updateOnType</code></td><td>Whether text updates on each typed character.</td></tr>
-                    <tr><td><code>enterAllowed</code></td><td>Whether pressing Enter is allowed.</td></tr>
-                    <tr><td><code>numeric</code></td><td>Numeric-only input.</td></tr>
-                    <tr><td><code>multiline</code></td><td>Enable multiline mode.</td></tr>
-                    <tr><td><code>value</code></td><td>Initial value.</td></tr>
-                </tbody>
-            </table>
-            <h3>Basic text entry</h3>
-<pre><code>local entry = Benjis.UI:CreateTextEntry(parent, {
-    placeholder = "Enter title...",
-    tall = 38
-})
-entry:Dock(TOP)
-entry:DockMargin(0, 0, 0, 12)</code></pre>
-            <h3>Numeric entry</h3>
-<pre><code>local amountEntry = Benjis.UI:CreateTextEntry(parent, {
-    placeholder = "Amount",
-    numeric = true,
-    value = 1,
-    tall = 36
-})</code></pre>
-            <h3>Multiline notes field</h3>
-<pre><code>local notes = Benjis.UI:CreateTextEntry(parent, {
-    placeholder = "Internal notes...",
-    multiline = true,
-    enterAllowed = true,
-    tall = 140,
-    textInsetY = 8
-})
-notes:Dock(TOP)</code></pre>
-            <h3>Search entry</h3>
-            <p><code>CreateSearchEntry</code> is a small wrapper that sets the default placeholder to <code>Search...</code>, increases left text inset to make space for an icon, and paints a magnifier icon on the left.</p>
-<pre><code>local search = Benjis.UI:CreateSearchEntry(parent, {
-    placeholder = "Search warrants...",
-    updateOnType = true
-})
-search:Dock(TOP)
-
-search.OnValueChange = function(self, value)
-    print("Search changed:", value)
-end</code></pre>
-            <h3>Changing state colours at runtime</h3>
-<pre><code>local entry = Benjis.UI:CreateTextEntry(parent, {
-    placeholder = "Custom palette"
-})
-
-entry:SetStateColors(
-    Color(12, 16, 22, 235),
-    Color(18, 28, 42, 235),
-    Color(24, 36, 58, 235),
-    Color(0, 0, 0, 180)
-)
-
-entry:SetPlaceholderColor(Color(140, 165, 190))</code></pre>
-            <div class="callout warn">
-                The module explicitly notes that clientside validation is presentation-only. Never trust input from these entries for money, ranks, jobs, inventory actions, database writes, or administrative actions without strict server-side checks.
-            </div>
-        </section>
-
-        <section class="section" id="patterns">
-            <h2>Recommended Usage Patterns</h2>
-            <h3>1. Use layout wrappers aggressively</h3>
-            <p>Use <code>transparent</code> panels as layout shells. Keep visible paint styles for actual visual sections only. That keeps your structure readable and prevents unnecessary paint work.</p>
-<pre><code>local shell = Benjis.UI:CreatePanel(frame.Content, "transparent")
-shell:Dock(FILL)
-shell:DockMargin(12, 12, 12, 12)
-
-local left = Benjis.UI:CreatePanel(shell, "panel")
-left:Dock(LEFT)
-left:SetWide(260)
-
-local right = Benjis.UI:CreatePanel(shell, "transparent")
-right:Dock(FILL)
-right:DockMargin(12, 0, 0, 0)</code></pre>
-            <h3>2. Keep UI creation separate from action logic</h3>
-            <p>Build the panel structure in one function and keep data loading, filtering, and net message handling in separate functions. That makes the framework easy to reuse across DarkRP jobs, entity menus, and admin tools.</p>
-<pre><code>local function BuildPlayerListPage(parent)
-    local list = Benjis.UI:CreateList(parent)
-
-    for _, ply in ipairs(player.GetAll()) do
-        local row = Benjis.UI:AddListRow(list, ply:Nick(), team.GetColor(ply:Team()))
-        row.DoClick = function()
-            OpenPlayerInspector(ply)
+function ENT:Draw()
+    self:DrawModel()
+    screen:Paint(function(surfaceObject, width, height, x, y, hovered)
+        draw.RoundedBox(8, 0, 0, width, height, BUI.GetColor("background"))
+        for _, worldButton in ipairs(surfaceObject.Buttons) do
+            surfaceObject:DrawButton(worldButton, hovered == worldButton)
         end
+    end)
+end</code></pre><p>World-surface callbacks are clientside convenience only. Every requested action must still be range-checked, permission-checked and value-validated on the server. Call <code>surfaceObject:Remove()</code> from the client entity's <code>OnRemove</code>.</p></section>
+
+<section id="configuration"><h2>Configuration</h2><p>Run <code>bui_config</code> as a superadmin. Appearance, typography, global UI, HUD and registered addon categories are edited in a framework-built screen. Changes persist in <code>garrysmod/data/benjis_ui/config.json</code>.</p><ul><li>Appearance: theme, base colours, radius, border style/width, shadow and opacity.</li><li>Typography: family, base size, heading scale and HUD scale.</li><li>UI: global scale, animations/speed, toast position, blur, sidebar and frame dimensions.</li><li>HUD: scale, anchor, opacity and spacing.</li><li>Reset section and restore-all actions require confirmation.</li></ul><pre><code>local accent = BUI.GetConfig("appearance", "accent")
+local animations = BUI.GetConfig("ui", "animations", true)
+
+BUI.RegisterSettingsCategory("inventory", {
+    label = "Inventory",
+    icon = "cart",
+    defaults = {compact = false},
+    Validate = function(input, fallback)
+        input = istable(input) and input or {}
+        return {compact = isbool(input.compact) and input.compact or fallback.compact}
+    end,
+    Render = function(panel, draft, addRow)
+        draft.inventory = draft.inventory or {compact = false}
+        local toggle = BUI.Create("BUI.Toggle", panel, {
+            value = draft.inventory.compact,
+            onChange = function(value) draft.inventory.compact = value end
+        })
+        addRow(panel, "Compact item cards", toggle)
     end
-end</code></pre>
-            <h3>3. Use theme and presets, not hardcoded styling</h3>
-            <p>If every page uses the same theme and font presets, you can rebrand or rebalance contrast later without rewriting every menu.</p>
-            <h3>4. Prefer static model panels in dense grids</h3>
-            <p>Use <code>CreateModelPanel</code> for tiles and list entries. Reserve <code>CreateInteractiveModelPanel</code> for one or two prominent previews such as character customisation or item inspection.</p>
-        </section>
+})</code></pre><p>Settings categories must provide safe defaults and a validator. <code>Render</code> is client-only; guard it when the registration file is shared.</p></section>
 
-        <section class="section" id="pitfalls">
-            <h2>Important Caveats</h2>
-            <div class="grid">
-                <div class="card">
-                    <h3><code>LerpColor</code> returns shared state</h3>
-                    <p>Do not cache it. Pass it directly into <code>draw.RoundedBox</code>, <code>draw.SimpleText</code>, or another immediate draw call.</p>
-                </div>
-                <div class="card">
-                    <h3>Theme aliases are captured</h3>
-                    <p>Some modules localise theme references when controls are created. If you replace the theme after panels already exist, existing controls may still be using earlier references until rebuilt.</p>
-                </div>
-                <div class="card">
-                    <h3>Text entries do not secure anything</h3>
-                    <p>Clients can still spoof input. Validate values server-side, clamp lengths, check permissions, and rate-limit requests.</p>
-                </div>
-                <div class="card">
-                    <h3>Interactive model panels cost more</h3>
-                    <p>They are optimised, but they still do more work than static previews. Avoid filling huge scrolling inventories with interactive model panels.</p>
-                </div>
-            </div>
-        </section>
+<section id="networking"><h2>Networking and security</h2><p>The server loads and validates the complete configuration. Clients request a snapshot once after <code>InitPostEntity</code>. Updates are compressed, size-bounded and accepted only from valid superadmins, with a per-player rate limit. Clients cannot directly select arbitrary persistence paths or bypass schema limits.</p><table><thead><tr><th>Message</th><th>Direction</th><th>Purpose</th></tr></thead><tbody><tr><td><code>BUI.ConfigRequest</code></td><td>Client → server</td><td>Request authoritative state.</td></tr><tr><td><code>BUI.ConfigSync</code></td><td>Server → client</td><td>Compressed validated configuration snapshot.</td></tr><tr><td><code>BUI.ConfigUpdate</code></td><td>Superadmin client → server</td><td>Save, reset section, or restore defaults.</td></tr></tbody></table><p>Do not use these internal messages as an addon state transport. Register an extension category for shared BUI configuration and use a separate validated net channel for unrelated application data.</p></section>
 
-        <section class="section" id="examples">
-            <h2>Extended Examples</h2>
-
-            <h3>Example 1: Searchable command list</h3>
-<pre><code>local frame = Benjis.UI:CreateFrame("Command Browser", 900, 620, "center")
-
-local root = Benjis.UI:CreatePanel(frame.Content, "transparent")
-root:Dock(FILL)
-root:DockMargin(12, 12, 12, 12)
-
-local search = Benjis.UI:CreateSearchEntry(root, {
-    placeholder = "Search chat commands...",
-    updateOnType = true
-})
-search:Dock(TOP)
-search:DockMargin(0, 0, 0, 12)
-
-local list = Benjis.UI:CreateList(root)
-
-local commands = {
-    { name = "/dropmoney", color = Color(46, 204, 113) },
-    { name = "/lockdown",  color = Color(231, 76, 60) },
-    { name = "/wanted",    color = Color(241, 196, 15) },
-    { name = "/job",       color = Color(52, 152, 219) }
-}
-
-local function RebuildList(filter)
-    list:Clear()
-
-    filter = string.Trim(string.lower(filter or ""))
-
-    for _, cmd in ipairs(commands) do
-        if filter == "" or string.find(string.lower(cmd.name), filter, 1, true) then
-            local row = Benjis.UI:AddListRow(list, cmd.name, cmd.color, "icon16/script.png")
-            row.DoClick = function()
-                SetClipboardText(cmd.name)
-            end
-        end
+<section id="hooks"><h2>Hooks</h2><table><thead><tr><th>Hook</th><th>Arguments</th><th>When</th></tr></thead><tbody><tr><td><code>BUILoaded</code></td><td><code>version</code></td><td>All framework modules are available.</td></tr><tr><td><code>BUIThemeChanged</code></td><td><code>id, previousId</code></td><td><code>BUI.SetTheme</code> changes theme.</td></tr><tr><td><code>BUIConfigChanged</code></td><td><code>config, source</code></td><td>Validated config applied locally/server-side.</td></tr><tr><td><code>BUIScaleChanged</code></td><td><code>scale, oldW, oldH, newW, newH</code></td><td>Resolution/config scale changes.</td></tr><tr><td><code>BUIFontsChanged</code></td><td><code>fontNames</code></td><td>Semantic fonts regenerate.</td></tr><tr><td><code>BUIThemeRegistered</code></td><td><code>id, theme</code></td><td>A theme is added.</td></tr><tr><td><code>BUIPresetRegistered</code></td><td><code>id, definition</code></td><td>A frame preset is added.</td></tr><tr><td><code>BUIPositionRegistered</code></td><td><code>id, definition</code></td><td>A frame position is added.</td></tr><tr><td><code>BUIFramePositioned</code></td><td><code>frame, id, options</code></td><td>A position is applied to a frame.</td></tr><tr><td><code>BUISettingsCategoryRegistered</code></td><td><code>id, definition</code></td><td>An addon settings category is added.</td></tr></tbody></table><pre><code>hook.Add("BUIConfigChanged", "Inventory.RefreshStyle", function(config, source)
+    if IsValid(Inventory.Frame) then
+        Inventory.Frame:InvalidateLayout(true)
     end
+end)</code></pre></section>
+
+<section id="custom"><h2>Custom themes, presets, positions and components</h2><h3>Preset</h3><pre><code>BUI.RegisterPreset("inspector", {
+    name = "Inspector",
+    Apply = function(frame, options)
+        frame.Main = vgui.Create("DPanel", frame:GetContent())
+        frame.Main:SetPaintBackground(false)
+        frame.Main:Dock(FILL)
+
+        frame.Inspector = BUI.Create("BUI.Panel", frame:GetContent(), {})
+        frame.Inspector:Dock(RIGHT)
+        frame.Inspector:SetWide(BUI.Scale(options.inspectorWidth or 280))
+    end
+})</code></pre><h3>Position</h3><pre><code>BUI.RegisterPosition("lower_center", {
+    Open = function(frame, options, animated)
+        local x = (ScrW() - frame:GetWide()) * .5
+        local y = ScrH() - frame:GetTall() - BUI.Scale(20)
+        frame:SetPos(x, y)
+        if animated then BUI.FadeIn(frame, .14) end
+    end,
+    Close = function(frame)
+        BUI.FadeOut(frame, .12, true)
+    end
+})</code></pre><h3>Component</h3><pre><code>local PANEL = {}
+
+function PANEL:Init()
+    self.Value = 0
+    self:SetTall(BUI.Scale(48))
 end
 
-search.OnValueChange = function(self, value)
-    RebuildList(value)
+function PANEL:Configure(options)
+    self.Value = tonumber(options.value) or 0
+    return self
 end
 
-RebuildList()</code></pre>
-
-            <h3>Example 2: Simple inventory viewer</h3>
-<pre><code>local frame = Benjis.UI:CreateFrame("Inventory", 1000, 700, "sidebar_right")
-
-local wrap = Benjis.UI:CreatePanel(frame.Content, "transparent")
-wrap:Dock(FILL)
-wrap:DockMargin(12, 12, 12, 12)
-
-local search = Benjis.UI:CreateSearchEntry(wrap, {
-    placeholder = "Search inventory...",
-    updateOnType = true
-})
-search:Dock(TOP)
-search:DockMargin(0, 0, 0, 12)
-
-local scroll, grid = Benjis.UI:CreateGrid(wrap, 10)
-scroll:Dock(FILL)
-
-local items = {
-    { name = "Lockpick", amount = 2, model = "models/weapons/w_crowbar.mdl" },
-    { name = "Medkit", amount = 1, model = "models/items/healthkit.mdl" },
-    { name = "Battery", amount = 4, model = "models/items/battery.mdl" }
-}
-
-local function RebuildInventory(filter)
-    grid:Clear()
-    filter = string.Trim(string.lower(filter or ""))
-
-    for _, item in ipairs(items) do
-        if filter == "" or string.find(string.lower(item.name), filter, 1, true) then
-            local tile = Benjis.UI:AddItemTile(grid, item)
-            tile.DoClick = function()
-                print("Selected item:", item.name)
-            end
-        end
-    end
+function PANEL:Paint(w, h)
+    BUI.DrawPanel(0, 0, w, h, BUI.GetColor("surface"))
+    draw.SimpleText(self.Value, BUI.GetFont("Numeric"),
+        BUI.Scale(12), h * .5, BUI.GetColor("text"),
+        TEXT_ALIGN_LEFT, TEXT_ALIGN_CENTER)
 end
 
-search.OnValueChange = function(self, value)
-    RebuildInventory(value)
+BUI.RegisterComponent("Inventory.Counter", PANEL, "DPanel")</code></pre><p>Application components should use their own namespace. Register only controls that are genuinely reused; a page-specific composition can stay a local builder function.</p></section>
+
+<section id="addon-guide"><h2>Creating an Addon with BUI</h2><p>This minimal addon adds a themed player directory without modifying BUI.</p><pre><code>my_directory/
+└── lua/
+    ├── autorun/my_directory.lua
+    └── my_directory/cl_menu.lua</code></pre><pre><code>-- lua/autorun/my_directory.lua
+if SERVER then AddCSLuaFile("my_directory/cl_menu.lua") end
+
+local function load()
+    if not BUI or not BUI.Version then return end
+    if CLIENT then include("my_directory/cl_menu.lua") end
 end
 
-RebuildInventory()</code></pre>
-
-            <h3>Example 3: Administrative inspector with tabs</h3>
-<pre><code>local frame = Benjis.UI:CreateFrame("Admin Inspector", 1180, 760, "sidebar")
-
-local tabs = Benjis.UI:CreateTabs(frame.Content, {
-    tabHeight = 40,
-    tabSpacing = 8,
-    contentStyle = "transparent",
-    onTabChanged = function(self, newID, oldID)
-        print("Switched from", oldID, "to", newID)
-    end
-})
-tabs:Dock(FILL)
-tabs:DockMargin(12, 12, 12, 12)
-
-tabs:AddTab("players", "Players", function(page)
-    local list = Benjis.UI:CreateList(page)
-
-    for _, ply in ipairs(player.GetAll()) do
-        local row = Benjis.UI:AddListRow(page, ply:Nick(), team.GetColor(ply:Team()), "icon16/user.png")
-        row.DoClick = function()
-            print("Inspect player", ply:SteamID())
-        end
-    end
-end)
-
-tabs:AddTab("logs", "Logs", function(page)
-    local box = Benjis.UI:CreateTextEntry(page, {
-        multiline = true,
-        tall = 400,
-        value = "Recent moderation actions will appear here..."
+load()
+hook.Add("BUILoaded", "MyDirectory.Load", load)</code></pre><pre><code>-- lua/my_directory/cl_menu.lua
+local function openDirectory()
+    local frame = BUI.CreateFrame({
+        title = "Player Directory",
+        width = 900,
+        height = 650,
+        preset = "centered"
     })
-    box:Dock(FILL)
-end)
 
-tabs:AddTab("preview", "Character Preview", function(page)
-    local mdl = Benjis.UI:CreateInteractiveModelPanel(page, LocalPlayer():GetModel())
-    mdl:Dock(FILL)
-end)</code></pre>
-            <div class="callout warn">
-                In the final example, the <code>players</code> tab should create list rows inside the list panel, not directly on the page, when used in production. Keep parent references precise when building reusable pages.
-            </div>
-        </section>
+    local search = BUI.Create("BUI.SearchBox", frame:GetContent(), {
+        placeholder = "Search players"
+    })
+    search:Dock(TOP)
+    search:DockMargin(BUI.Scale(16), BUI.Scale(12), BUI.Scale(16), BUI.Scale(10))
 
-        <section class="section footer">
-            This wiki reflects the current Benjis.UI framework modules. 
-        </section>
-    </main>
-</div>
-</body>
-</html>
+    local list = BUI.Create("BUI.ScrollPanel", frame:GetContent(), {dock = FILL})
+    list:DockMargin(BUI.Scale(16), 0, BUI.Scale(16), BUI.Scale(16))
+
+    local function rebuild(query)
+        list:Clear()
+        query = string.lower(query or "")
+        for _, ply in ipairs(player.GetAll()) do
+            if query == "" or string.find(string.lower(ply:Nick()), query, 1, true) then
+                local row = BUI.Create("BUI.PlayerRow", list, {
+                    player = ply,
+                    onClick = function(selected)
+                        SetClipboardText(selected:SteamID())
+                        BUI.Notify("Copied", selected:SteamID(), "success")
+                    end
+                })
+                row:Dock(TOP)
+            end
+        end
+    end
+
+    search.OnValueChanged = rebuild
+    rebuild("")
+end
+
+concommand.Add("player_directory", openDirectory)</code></pre><p>Add a settings category only if the option is server-wide. Keep personal, ephemeral UI state client-local.</p></section>
+
+<section id="darkrp"><h2>DarkRP integration example</h2><p>The separate <code>benjis_darkrp_ui</code> addon demonstrates dependency use. It registers its settings through <code>BUI.RegisterSettingsCategory</code>, creates domain-specific player/item rows with <code>BUI.RegisterComponent</code>, uses dashboard/sidebar presets, and reads all visual tokens from BUI.</p><pre><code>BDUI.RegisterF4Section("crafting", {
+    label = "Crafting",
+    icon = "settings",
+    order = 75,
+    Available = function()
+        return istable(Crafting.Recipes) and not table.IsEmpty(Crafting.Recipes)
+    end,
+    Build = function(parent, frame)
+        local grid = BUI.CreateGrid(parent, {minColumnWidth = 280})
+        grid:Dock(TOP)
+        -- Populate recipe cards here.
+    end
+})</code></pre><p>This public DarkRP extension API belongs to the integration addon, not BUI. It lets another DarkRP addon add an F4 section without editing either core.</p></section>
+
+<section id="performance"><h2>Performance recommendations</h2><ul><li>Resolve theme values in <code>Paint</code>, but cache materials and expensive domain data outside it.</li><li>Use docking, stack and grid invalidation instead of manual positioning in Think.</li><li>Use <code>BUI.Animate</code>; its hook exists only while animation work is active.</li><li>Create fonts only through roles and call <code>RefreshFonts</code only after configuration changes.</li><li>For long server lists, rebuild on search/sort/player events, not every frame.</li><li>Throttle eye traces for contextual HUDs and cache the current result briefly.</li><li>Remove panel-owned timers/hooks in <code>OnRemove</code> when adding any yourself.</li><li>Do not network search text, selected tabs, hover state or other client-only state.</li><li>Use blur sparingly; BUI applies it only when enabled and requested by a frame.</li></ul></section>
+
+<section id="mistakes"><h2>Common mistakes</h2><table><thead><tr><th>Mistake</th><th>Correct approach</th></tr></thead><tbody><tr><td>Using placeholder text as the only explanation for an input.</td><td>Use <code>BUI.CreateField</code> with a permanent label and description. A placeholder is only an example or format hint.</td></tr><tr><td>Hardcoding <code>Color(20,20,20)</code> in every panel.</td><td>Use <code>BUI.GetColor("surface")</code> or add a semantic theme token.</td></tr><tr><td>Multiplying every coordinate by <code>ScrW()/1920</code>.</td><td>Use general/axis scaling and responsive max sizes.</td></tr><tr><td>Creating <code>surface.CreateFont</code> in Paint.</td><td>Register a semantic role once.</td></tr><tr><td>Including client component files on the server.</td><td>Use <code>AddCSLuaFile</code>; include them only under <code>CLIENT</code>.</td></tr><tr><td>Assuming BUI autoruns first.</td><td>Use <code>BUI.Version</code> plus the <code>BUILoaded</code> hook.</td></tr><tr><td>Sending config directly to clients from an unvalidated receiver.</td><td>Use a settings category and BUI's server-owned configuration.</td></tr><tr><td>Recreating the root frame for each tab.</td><td>Keep the root/navigation and replace only content.</td></tr><tr><td>Registering a huge generic abstraction for one screen.</td><td>Keep domain composition local; register only reusable components.</td></tr></tbody></table></section>
+
+<section id="api"><h2>Public API reference</h2><p>Functions below are supported public APIs. Module-local functions and the three configuration net messages are internal implementation.</p>
+<table><thead><tr><th>Function</th><th>Arguments → return</th><th>Description</th></tr></thead><tbody>
+<tr><td><code>BUI.Create</code></td><td><code>(string class, Panel? parent, table? options) → Panel?</code></td><td>Create and configure a registered component.</td></tr>
+<tr><td><code>BUI.CreateField</code></td><td><code>(Panel parent, table options) → BUI.Field, Panel</code></td><td>Create a labelled form field and return both its container and configured control. Use permanent labels for meaning; placeholders are examples or format hints.</td></tr>
+<tr><td><code>BUI.CreateFrame</code></td><td><code>(table options) → BUI.Frame</code></td><td>Create a responsive window; supports title, dimensions, internal preset, screen position, popup, sizing and submit options.</td></tr>
+<tr><td><code>BUI.CreateWorldSurface</code></td><td><code>(Entity entity, table options) → WorldSurface?</code></td><td>Create an entity-bound interactive 3D2D surface with width, height, scale, maximum distance and transform options.</td></tr>
+<tr><td><code>WorldSurface:SetButtons</code></td><td><code>(table buttons) → WorldSurface</code></td><td>Set hit-tested buttons supporting geometry, label, icon, visible, enabled and onClick fields.</td></tr>
+<tr><td><code>WorldSurface:Paint</code></td><td><code>(function callback)</code></td><td>Paint at the configured world transform and pass dimensions, projected cursor and hovered button.</td></tr>
+<tr><td><code>WorldSurface:DrawButton</code></td><td><code>(table button, boolean hovered)</code></td><td>Draw a world button using current BUI theme tokens and world font roles.</td></tr>
+<tr><td><code>BUI.RegisterComponent</code></td><td><code>(string name, table panel, string? base) → string</code></td><td>Register a VGUI component and record it in <code>BUI.Components</code>.</td></tr>
+<tr><td><code>BUI.RegisterTheme</code></td><td><code>(string id, table theme) → boolean</code></td><td>Register a semantic theme object.</td></tr>
+<tr><td><code>BUI.GetTheme</code></td><td><code>(string? id) → table</code></td><td>Return requested/current theme, falling back to dark.</td></tr>
+<tr><td><code>BUI.SetTheme</code></td><td><code>(string id) → boolean</code></td><td>Set a registered theme locally and emit hooks.</td></tr>
+<tr><td><code>BUI.GetColor</code></td><td><code>(string token, number? alpha) → Color</code></td><td>Resolve theme/config colour.</td></tr>
+<tr><td><code>BUI.RegisterFontRole</code></td><td><code>(string role, table definition) → boolean</code></td><td>Add/update a semantic font role.</td></tr>
+<tr><td><code>BUI.RefreshFonts</code></td><td><code>()</code></td><td>Regenerate semantic fonts from current scaling/configuration.</td></tr>
+<tr><td><code>BUI.GetFont</code></td><td><code>(string role) → string</code></td><td>Return the generated surface font name.</td></tr>
+<tr><td><code>BUI.Scale</code></td><td><code>(number value) → number</code></td><td>General clamped UI scaling.</td></tr>
+<tr><td><code>BUI.ScaleW</code>, <code>ScaleH</code></td><td><code>(number value) → number</code></td><td>Axis-aware scaling.</td></tr>
+<tr><td><code>BUI.ClampScale</code></td><td><code>(number value, number? min, number? max) → number</code></td><td>Scale with explicit output bounds.</td></tr>
+<tr><td><code>BUI.GetScale</code></td><td><code>() → number</code></td><td>Current effective UI multiplier.</td></tr>
+<tr><td><code>BUI.ScreenCategory</code></td><td><code>() → string</code></td><td>Return compact, standard, large or ultrawide.</td></tr>
+<tr><td><code>BUI.ResponsiveSize</code></td><td><code>(w,h,maxW?,maxH?) → w,h</code></td><td>Get clamped menu dimensions.</td></tr>
+<tr><td><code>BUI.RegisterIcon</code></td><td><code>(string id, string materialPath) → boolean</code></td><td>Cache a named material.</td></tr>
+<tr><td><code>BUI.GetIcon</code></td><td><code>(string idOrPath) → IMaterial</code></td><td>Resolve cached icon.</td></tr>
+<tr><td><code>BUI.FitText</code></td><td><code>(string text, string role, number maxWidth, table? fallbackRoles) → string, string, number, string</code></td><td>Choose a smaller semantic font when needed, then safely ellipsize text to the available width.</td></tr>
+<tr><td><code>BUI.WrapText</code></td><td><code>(string text, string role, number maxWidth, number maxLines, table? fallbackRoles) → table, string, string</code></td><td>Wrap text within a width and line budget, using semantic fallback fonts before truncating.</td></tr>
+<tr><td><code>BUI.DrawIcon</code></td><td><code>(id,x,y,size,color?)</code></td><td>Draw a named icon.</td></tr>
+<tr><td><code>BUI.DrawPanel</code></td><td><code>(x,y,w,h,color?,radius?,borderColor?,borderWidth?)</code></td><td>Draw themed surface, border and shadow.</td></tr>
+<tr><td><code>BUI.DrawBlur</code></td><td><code>(Panel panel, number? strength)</code></td><td>Draw optional configured background blur.</td></tr>
+<tr><td><code>BUI.TextSize</code></td><td><code>(any text, string? role) → w,h</code></td><td>Measure semantic text.</td></tr>
+<tr><td><code>BUI.Animate</code></td><td><code>(panel,key,from,target,duration,update,complete?,easing?)</code></td><td>Schedule lightweight numeric animation.</td></tr>
+<tr><td><code>BUI.FadeIn</code>, <code>FadeOut</code></td><td><code>(panel,duration?,remove?)</code></td><td>Convenience alpha transitions.</td></tr>
+<tr><td><code>BUI.Notify</code></td><td><code>(table options) → BUI.Toast</code></td><td>Show stacked notification. Also accepts <code>(title,message,type)</code>.</td></tr>
+<tr><td><code>BUI.OpenModal</code></td><td><code>(table options) → BUI.Modal</code></td><td>Open arbitrary action modal.</td></tr>
+<tr><td><code>BUI.Confirm</code></td><td><code>(table options) → BUI.Modal</code></td><td>Open cancel/confirm modal.</td></tr>
+<tr><td><code>BUI.AttachTooltip</code></td><td><code>(Panel panel, string text)</code></td><td>Attach lightweight themed tooltip behavior.</td></tr>
+<tr><td><code>BUI.OpenContextMenu</code></td><td><code>(table items) → DMenu</code></td><td>Open action/divider menu at cursor.</td></tr>
+<tr><td><code>BUI.RegisterPreset</code></td><td><code>(string id, table definition) → boolean</code></td><td>Register frame composition with <code>Apply</code>.</td></tr>
+<tr><td><code>BUI.ApplyPreset</code></td><td><code>(Panel frame, string id, table? options) → boolean</code></td><td>Apply registered preset.</td></tr>
+<tr><td><code>BUI.RegisterPosition</code></td><td><code>(string id, table definition) → boolean</code></td><td>Register a screen presentation with <code>Open</code> and optional <code>Close</code>.</td></tr>
+<tr><td><code>BUI.GetPosition</code></td><td><code>(string id) → table?</code></td><td>Return a registered frame-position definition.</td></tr>
+<tr><td><code>BUI.ApplyPosition</code></td><td><code>(Panel frame, string id, table? options, boolean? animated) → boolean</code></td><td>Place or animate a frame using a registered position.</td></tr>
+<tr><td><code>BUI.ClosePosition</code></td><td><code>(Panel frame) → boolean</code></td><td>Run the active position's close presentation when available.</td></tr>
+<tr><td><code>BUI.CreateStack</code></td><td><code>(parent, options?) → BUI.Stack</code></td><td>Create horizontal/vertical/equal/weighted stack.</td></tr>
+<tr><td><code>BUI.CreateGrid</code></td><td><code>(parent, options?) → BUI.Grid</code></td><td>Create fixed/responsive grid.</td></tr>
+<tr><td><code>BUI.Spacer</code></td><td><code>(parent,size?,horizontal?) → Panel</code></td><td>Create non-painting spacer.</td></tr>
+<tr><td><code>BUI.SetPadding</code></td><td><code>(panel,top,right?,bottom?,left?) → Panel</code></td><td>Scale and apply dock padding.</td></tr>
+<tr><td><code>BUI.Center</code></td><td><code>(panel,width,height) → Panel</code></td><td>Scale, size and center a panel.</td></tr>
+<tr><td><code>BUI.RegisterSettingsCategory</code></td><td><code>(string id, table definition) → boolean</code></td><td>Extend server configuration and admin UI.</td></tr>
+<tr><td><code>BUI.GetConfig</code></td><td><code>(section,key?,fallback?) → any</code></td><td>Read current validated config.</td></tr>
+<tr><td><code>BUI.ValidateConfig</code></td><td><code>(table input) → table</code></td><td>Return safe bounded config.</td></tr>
+<tr><td><code>BUI.ApplyConfig</code></td><td><code>(table config, any? source)</code></td><td>Validate/apply and emit refresh hooks.</td></tr>
+<tr><td><code>BUI.ResetConfigSection</code></td><td><code>(string section) → boolean</code></td><td>Reset section locally; admin UI is required for authoritative server reset.</td></tr>
+<tr><td><code>BUI.OpenConfig</code></td><td><code>() → BUI.Frame?</code></td><td>Open superadmin-only settings.</td></tr>
+<tr><td><code>BUI.OpenDemo</code></td><td><code>() → BUI.Frame</code></td><td>Open component gallery.</td></tr>
+<tr><td><code>BUI.Util.Clone</code></td><td><code>(any value) → any</code></td><td>Deep-copy ordinary tables and colours.</td></tr>
+<tr><td><code>BUI.Util.Merge</code></td><td><code>(table target, table source) → table</code></td><td>Deep merge configuration-style tables.</td></tr>
+<tr><td><code>BUI.Util.ClampNumber</code></td><td><code>(value,min,max,fallback) → number</code></td><td>Coerce and clamp numeric input.</td></tr>
+<tr><td><code>BUI.Util.SafeColor</code></td><td><code>(value,fallback) → Color</code></td><td>Validate RGBA tables.</td></tr>
+<tr><td><code>BUI.Emit</code></td><td><code>(string event, ...) → any</code></td><td>Run <code>hook.Run("BUI" .. event,...)</code>.</td></tr>
+</tbody></table>
+<h3>Console commands</h3><table><thead><tr><th>Command</th><th>Access</th><th>Purpose</th></tr></thead><tbody><tr><td><code>bui_demo</code></td><td>Client</td><td>Open live component gallery.</td></tr><tr><td><code>bui_config</code></td><td>Superadmin</td><td>Open authoritative configuration.</td></tr></tbody></table></section>
+
+</main></div>
+</body></html>
