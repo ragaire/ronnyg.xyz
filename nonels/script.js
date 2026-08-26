@@ -1,5 +1,5 @@
 
-const BackgroundCount = 3;
+const BackgroundCount = 1;
 const BackgroundPath = "img/";
 const BackgroundExtension = ".jpg";
 const BackgroundHoldLength = 6.0;
